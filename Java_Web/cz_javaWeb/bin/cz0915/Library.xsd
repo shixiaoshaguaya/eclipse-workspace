@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Library" xmlns:tns="http://www.example.org/Library" elementFormDefault="qualified">
+	<complexType name="bookType">
+		<sequence>
+			<element name="title" type="string"></element>
+		</sequence>
+		<attribute name="bookid" type="string"></attribute>
+	</complexType>
+	<complexType name="booksType">
+		<sequence>
+			<element name="book" type="tns:bookType" maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+	<complexType name="personType">
+		<attribute name="name" type="string"></attribute>
+		<attribute name="borrowed" type="string"></attribute>
+	</complexType>
+	<complexType name="itrmType">
+		<sequence>
+			<element name="data" type="date"></element>
+			<element name="person" type="tns:personType"></element>
+		</sequence>
+	</complexType>
+	<complexType name="recordsType">
+		<sequence>
+			<element name="item" type="tns:itrmType" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	<complexType name="libraryType">
+		<sequence>
+			<element name="books" type="tns:booksType" maxOccurs="1" minOccurs="1"></element>
+			<element name="recoeds" type="tns:recordsType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	<element name="library" type="tns:libraryType"></element>
+</schema>

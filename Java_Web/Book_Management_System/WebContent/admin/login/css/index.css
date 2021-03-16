@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+* {
+	margin: 0px;
+}
+
+h3 {
+	height: 70px;
+	width: 1350px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+	display: table-cell
+}
+
+.left {
+	width: 150px;
+	height: 465px;
+	background-color: #E6E6E6;
+	margin: 0px;
+	text-align: left;
+	color: #234a7b;
+}
+
+a:link {
+	text-decoration: none;
+	color: #000000;
+}
+
+.left_list {
+	font-size: 14px;
+	margin-top: 10px;
+	padding-right: 12px;
+	display: block;
+	width: 135px;
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px dotted #ccc;
+	text-align: center;
+	font-family: "微软雅黑";
+}
+
+.left_list:hover {
+	background: #007cc2;
+	color: #FFF;
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<servlet>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<servlet-class>servlet.HelloWorldServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<url-pattern>/cz</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RequestMethodServlet</servlet-name>
+		<servlet-class>servlet.RequestMethodServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RequestMethodServlet</servlet-name>
+		<url-pattern>/Request</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>czServlet01</display-name>
+		<servlet-name>czServlet01</servlet-name>
+		<servlet-class>servlet.czServlet01</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet01</servlet-name>
+		<url-pattern>/czServlet01</url-pattern>
+		<url-pattern>/</url-pattern>
+		<url-pattern>/testservlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>czServlet02</servlet-name>
+		<servlet-class>servlet.czServlet02</servlet-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet02</servlet-name>
+		<url-pattern>/czServlet02</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>companyName</param-name>
+		<param-value>itcast</param-value>
+	</context-param>
+	<context-param>
+		<param-name>address</param-name>
+		<param-value>bejing</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>czServlet03</servlet-name>
+		<servlet-class>servlet.czServlet03</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet03</servlet-name>
+		<url-pattern>/czServlet03</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>czServlet04</servlet-name>
+		<servlet-class>servlet.czServlet04</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet04</servlet-name>
+		<url-pattern>/czServlet04</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>czServlet05</servlet-name>
+		<servlet-class>servlet.czServlet05</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet05</servlet-name>
+		<url-pattern>/czServlet05</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>czServlet06</servlet-name>
+		<servlet-class>servlet.czServlet06</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>czServlet06</servlet-name>
+		<url-pattern>/czServlet06</url-pattern>
+	</servlet-mapping>
+</web-app>

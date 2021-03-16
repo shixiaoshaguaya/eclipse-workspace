@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library SYSTEM "Library.dtd">
+<library>
+	<books>
+		<book bookid="b0101">
+			<title>Java培训教材</title>
+		</book>
+		<book bookid="a0103">
+			<title>Java Web开发</title>
+		</book>
+	</books>
+	<records>
+		<item>
+			<data>2020-09-15</data>
+			<person name="陈喆" borrowed="b0101 a0103" />
+		</item>
+	</records>
+</library>

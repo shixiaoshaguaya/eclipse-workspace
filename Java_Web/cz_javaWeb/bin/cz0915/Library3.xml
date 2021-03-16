@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<books>
+		<book bookid="b0101">
+			<title>Java培训教材</title>
+		</book>
+		<book bookid="a0102">
+			<title>Java Web开发</title>
+		</book>
+	</books>
+	<records>
+		<item>
+			<data>2020-09-15</data>
+			<person name="陈喆" borrowed="b0101 a0102" />
+		</item>
+	</records>
+</library>

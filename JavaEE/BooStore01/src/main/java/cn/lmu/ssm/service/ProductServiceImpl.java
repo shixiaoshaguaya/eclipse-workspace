@@ -2,10 +2,16 @@ package cn.lmu.ssm.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import cn.lmu.ssm.dao.ProductDao;
 import cn.lmu.ssm.pojo.Product;
+import cn.lmu.ssm.pojo.SaleInfo;
 
+@Service("productService")
 public class ProductServiceImpl implements ProductService {
+	@Autowired
 	private ProductDao productDao;
 
 	public ProductDao getProductDao() {
@@ -32,4 +38,13 @@ public class ProductServiceImpl implements ProductService {
 		this.productDao.insert(product);
 	}
 
+	@Override
+	public void sale(SaleInfo saleInfo) {
+		this.productDao.sale(saleInfo);
+	}
+
+	@Override
+	public Product find(int id) {
+		return this.productDao.find(id);
+	}
 }

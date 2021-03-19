@@ -11,7 +11,7 @@
   产品列表页面
       <ol>
             <c:forEach items="${products}" var="product">
-                  <li>${product.name}-${product.price}</li>
+                  <li>${product.name}-${product.price}-${product.quantity}</li>
             </c:forEach>
       </ol>
 </body>

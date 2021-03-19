@@ -28,12 +28,18 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.21</version>
 		</dependency>
-     <dependency>
-                  <groupId>javax.servlet</groupId>
-                  <artifactId>jstl</artifactId>
-                  <version>1.2</version>
-            </dependency>
+     	<dependency>
+     		<groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-jdbc</artifactId>
+           <version>5.3.3</version>
+        </dependency>
 	</dependencies>
+	        
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<plugins>
@@ -43,7 +49,7 @@
 				<version>2.2</version>
 				<configuration>
 					<hostName>localhost</hostName>        <!-- Default: localhost -->
-					<port>8082</port>                     <!-- 启动端口 Default:8080 -->
+					<port>8080</port>                     <!-- 启动端口 Default:8080 -->
 					<path>/</path>   <!-- 访问应用路径 Default: /${project.artifactId} -->
 					<uriEncoding>UTF-8</uriEncoding>      <!-- uri编码 Default: ISO-8859-1 -->
 				</configuration>

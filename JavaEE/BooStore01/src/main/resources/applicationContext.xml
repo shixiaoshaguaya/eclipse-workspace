@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd">
     <!-- 配置productDao -->
-	<bean id="productDao" class="cn.lmu.ssm.dao.ProductDao"></bean>
+	<!-- <bean id="productDao" class="cn.lmu.ssm.dao.ProductDao"></bean> -->
 	<!-- 配置productService -->
-	<bean id="productService" class="cn.lmu.ssm.service.ProductServiceImpl">
+	<!-- <bean id="productService" class="cn.lmu.ssm.service.ProductServiceImpl">
 		<property name="productDao" ref="productDao"/>
-	</bean>
+	</bean> -->
+	
+	    <!-- 1配置数据源 -->
+    <bean id="dataSource" class=
+      "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!--数据库驱动 -->
+        <property name="driverClassName"  value="com.mysql.cj.jdbc.Driver" />
+        <!--连接数据库的url -->
+        <property name="url"  value="jdbc:mysql://localhost:3306/bookstore?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;allowMultiQueries=true&amp;useTimezone=true&amp;serverTimezone=GMT%2B8&amp;allowPublicKeyRetrieval=true" />
+        <!--连接数据库的用户名 -->
+        <property name="username"  value="root" />
+        <!--连接数据库的密码 -->
+        <property name="password"  value="root" />
+    </bean>
+    <!-- 2配置JDBC模板 -->
+    <bean id="jdbcTemplate"
+            class="org.springframework.jdbc.core.JdbcTemplate">
+        <!-- 默认必须使用数据源 -->
+        <property name="dataSource"  ref="dataSource" />
+    </bean>
+	
+	<context:component-scan base-package="cn.lmu.ssm.**" />
 </beans>

@@ -7,6 +7,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import cn.lmu.ssm.pojo.Product;
 import cn.lmu.ssm.pojo.SaleInfo;
@@ -15,6 +20,9 @@ import cn.lmu.ssm.pojo.SaleInfo;
 public class ProductDao_SpringJDBC extends ProductDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+//	@Autowired
+//	private PlatformTransactionManager transactionManager;
 	@Override
 	public List<Product> getProducts() {
 		// 定义SQL语句
@@ -40,6 +48,8 @@ public class ProductDao_SpringJDBC extends ProductDao {
 		}
 	}
 
+//	@SuppressWarnings("unchecked")
+	@Transactional
 	public void sale(SaleInfo saleInfo) {
 		// 插入销售记录
 		// 定义SQL
@@ -48,13 +58,35 @@ public class ProductDao_SpringJDBC extends ProductDao {
 		Object[] objInsert = new Object[] { saleInfo.getProduct_id(), saleInfo.getSalePrice(), saleInfo.getQuantity() };
 		// 执行添加操作，返回的是受SQL语句影响的记录条数
 		this.jdbcTemplate.update(sqlInsert, objInsert);
-
+//		int div = 1 / 0;// 模拟异常
 		// 更新产品库存
 		String sqlUpdate = "update product  set quantity=quantity-? where id=?";
 		// 定义数组来存放SQL语句中的参数
 		Object[] objUpdate = new Object[] { saleInfo.getQuantity(), saleInfo.getProduct_id() };
 		// 执行添加操作，返回的是受SQL语句影响的记录条数
 		this.jdbcTemplate.update(sqlUpdate, objUpdate);
+
+//		TransactionTemplate tt = new TransactionTemplate(this.transactionManager);
+//		tt.execute(new TransactionCallback() {
+//			public Object doInTransaction(TransactionStatus status) {
+//				// 定义SQL
+//				String sqlInsert = "insert into sale(product_id,salePrice,quantity) value(?,?,?)";
+//				// 定义数组来存放SQL语句中的参数
+//				Object[] objInsert = new Object[] { saleInfo.getProduct_id(), saleInfo.getSalePrice(),
+//						saleInfo.getQuantity() };
+//				// 执行添加操作，返回的是受SQL语句影响的记录条数
+//
+//				String sqlUpdate = "update product set quantity=quantity-? where id=?";
+//				// 定义数组来存放SQL语句中的参数
+//				Object[] objUpdate = new Object[] { saleInfo.getQuantity(), saleInfo.getProduct_id() };
+//				// 执行添加操作，返回的是受SQL语句影响的记录条数
+//				jdbcTemplate.update(sqlInsert, objInsert);
+////				int div = 1 / 0;// 模拟异常
+//				// 更新产品库存
+//				jdbcTemplate.update(sqlUpdate, objUpdate);
+//				return null;
+//			}
+//		});
 	}
 
 	public Product find(int id) {

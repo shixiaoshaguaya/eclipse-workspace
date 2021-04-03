@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.ProductMapper">
+	<select id="allProduct" resultType="pojo.Product">
+		select * from product
+	</select>
+
+	<select id="selectProductById" parameterType="Integer" resultType="pojo.Product">
+		select * from product where id=#{id}
+	</select>
+
+	<insert id="insertProduct" parameterType="pojo.Product"
+		keyProperty="id" useGeneratedKeys="true">
+		insert into product(productname,
+		category, price, image, qrcode, description)
+		values(#{productname},
+		#{category}, #{price}, #{image}, #{qrcode}, #{description})
+	</insert>
+
+	<update id="updateProduct" parameterType="pojo.Product">
+		update product set
+		productname=#{productname}, price=#{price} where id=#{id}
+	</update>
+	<delete id="deleteProduct" parameterType="integer">
+		delete from product
+		where id=#{id}
+	</delete>
+</mapper>

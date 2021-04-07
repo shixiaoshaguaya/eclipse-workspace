@@ -9,6 +9,7 @@ public class User {
 	private String telephone;
 	private String role;
 	private Date registertime;
+	private Card card;
 
 	public int getId() {
 		return id;
@@ -58,7 +59,20 @@ public class User {
 		this.registertime = registertime;
 	}
 
-	public User(int id, String username, String password, String telephone, String role, Date registertime) {
+
+	public Card getCard() {
+		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
+	}
+
+	public User() {
+		super();
+	}
+
+	public User(int id, String username, String password, String telephone, String role, Date registertime, Card card) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -66,16 +80,13 @@ public class User {
 		this.telephone = telephone;
 		this.role = role;
 		this.registertime = registertime;
-	}
-
-	public User() {
-		super();
+		this.card = card;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", telephone=" + telephone
-				+ ", role=" + role + ", registertime=" + registertime + "]";
+				+ ", role=" + role + ", registertime=" + registertime + ", card=" + card + "]";
 	}
 
 }

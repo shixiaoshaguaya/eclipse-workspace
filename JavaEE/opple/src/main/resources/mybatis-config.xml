@@ -16,6 +16,7 @@
 	</environments>
 	<mappers>
 		<mapper resource="dao/UserMapper.xml" />
-		<mapper resource="dao/ProductMapper.xml"/>
+		<mapper resource="dao/ProductMapper.xml" />
+		<mapper resource="dao/CardMapper.xml" />
 	</mappers>
 </configuration>

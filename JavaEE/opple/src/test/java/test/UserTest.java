@@ -35,17 +35,21 @@ public class UserTest {
 		InputStream inputStream = Resources.getResourceAsStream(resourse);
 		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		User u2 = (User) sqlSession.selectOne("dao.UserMapper.selectUserById", 2);
+		User u2 = (User) sqlSession.selectOne("dao.UserMapper.selectUserById3", 15);
 		System.out.println("22:" + u2.toString());
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-		Date d = new Date();
-		try {
-			d = fmt.parse("2015-1-1");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		List<User> users = sqlSession.selectList("dao.UserMapper.selectUserByDate", d);
-		System.out.println("11:" + users.toString());
+		System.out.println();
+		sqlSession.close();
+	}
+
+	@Test
+	public void selectUserName() throws IOException {
+		String resourse = "mybatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resourse);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		User u2 = (User) sqlSession.selectOne("dao.UserMapper.selectUserName3", "admin");
+		System.out.println("22:" + u2.toString());
+		System.out.println();
 		sqlSession.close();
 	}
 
@@ -90,7 +94,7 @@ public class UserTest {
 		sqlSession.close();
 	}
 
-	@Test
+//	@Test
 	public void deleteUser() throws IOException {
 		String resourse = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resourse);

@@ -1,6 +1,7 @@
 package pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 	private int id;
@@ -10,6 +11,7 @@ public class User {
 	private String role;
 	private Date registertime;
 	private Card card;
+	private List<Order> orderlist;
 
 	public int getId() {
 		return id;
@@ -59,7 +61,6 @@ public class User {
 		this.registertime = registertime;
 	}
 
-
 	public Card getCard() {
 		return card;
 	}
@@ -81,12 +82,14 @@ public class User {
 		this.role = role;
 		this.registertime = registertime;
 		this.card = card;
+
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", telephone=" + telephone
-				+ ", role=" + role + ", registertime=" + registertime + ", card=" + card + "]";
+				+ ", role=" + role + ", registertime=" + registertime + ", card=" + card + ", orderlist=" + orderlist
+				+ "]";
 	}
 
 }

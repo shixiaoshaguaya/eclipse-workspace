@@ -29,7 +29,7 @@ public class UserTest {
 		sqlSession.close();
 	}
 
-//	@Test
+	@Test
 	public void selectUserById() throws IOException {
 		String resourse = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resourse);
@@ -41,7 +41,7 @@ public class UserTest {
 		sqlSession.close();
 	}
 
-	@Test
+//	@Test
 	public void selectUserName() throws IOException {
 		String resourse = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resourse);

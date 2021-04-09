@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="dao.UserMapper">
-	<select id="allUser" resultType="pojo.User">
+	<select id="allUser" resultMap="userWithCardResult">
 		select * from user
 	</select>
 
@@ -10,67 +10,90 @@
 		resultMap="userWithCardResult">
 		select * from user where id=#{id}
 	</select>
-	
+
 	<resultMap type="pojo.User" id="userWithCardResult">
 		<id column="id" property="id" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
 		<result column="role" property="role" />
 		<result column="registertime" property="registertime" />
-		<association column="card_id" property="card" javaType="pojo.Card"
-			select="dao.CardMapper.selectCardById"></association>
+		<!-- 一对一 -->
+		<association column="card_id" property="card"
+			javaType="pojo.Card" select="dao.CardMapper.selectCardById"></association>
+		<!-- 一对多 -->
+		<collection column="id" property="orderlist"
+			ofType="pojp.Order" select="dao.OrderMapper.selectOrderByUid" />
 	</resultMap>
-	
+
 	<!-- 方法二 -->
-	<select id="selectUserById2" parameterType="Integer" resultMap="userWithCardResult2">
-		select * from user inner join card where user.card_id=card.id and
-		user.id=#{id}
+	<select id="selectUserById2" parameterType="Integer"
+		resultMap="userWithCardResult2">
+		select *,c.telephone c_telephone,c.id c_id,o.id o_id from
+		user u inner join card c ON u.card_id=c.id inner join `order` o ON
+		u.id=o.uid where u.id=#{id}
 	</select>
-	
+
 	<resultMap type="pojo.User" id="userWithCardResult2">
 		<id column="id" property="id" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
+		<result property="telephone" column="telephone" />
 		<result column="role" property="role" />
 		<result column="registertime" property="registertime" />
 		<association property="card" javaType="pojo.Card">
-			<id property="id" column="card_id" />
+			<id property="id" column="c_id" />
 			<result property="name" column="name" />
 			<result property="birthday" column="birthday" />
-			<result property="telephone" column="telephone" />
-			<result property="address" column="address" />			
+			<result property="telephone" column="c_telephone" />
+			<result property="address" column="address" />
 		</association>
+		<collection property="orderlist" ofType="pojo.Order">
+			<id property="id" column="o_id" />
+			<result property="money" column="money" />
+			<result property="number" column="number" />
+			<result property="receiverAddress" column="receiverAddress" />
+			<result property="receiverName" column="receiverName" />
+			<result property="receiverPhone" column="receiverPhone" />
+			<result property="paystate" column="paystate" />
+			<result property="ordertime" column="ordertime" />
+			<result property="uid" column="uid" />
+		</collection>
 	</resultMap>
-	
+
 	<!-- 方法三 -->
-	<select id="selectUserById3" parameterType="Integer" resultType="pojo.UserCardVO">
-		select u.*,c.name,c.birthday,c.telephone card_telephone,c.address 
-		from user u inner join card c where u.card_id=c.id and u.id=#{id}
+	<select id="selectUserById3" parameterType="Integer"
+		resultType="pojo.UserCardVO">
+		select u.*,c.name,c.birthday,c.telephone
+		card_telephone,c.address
+		from user u inner join card c where
+		u.card_id=c.id and u.id=#{id}
 	</select>
-	
+
 	<!-- 根据名称查询 -->
 	<!-- 方法一 -->
-		<select id="selectUserName" parameterType="string"
+	<select id="selectUserName" parameterType="string"
 		resultMap="userWithCardName">
 		select * from user where username=#{username}
 	</select>
-	
+
 	<resultMap type="pojo.User" id="userWithCardName">
 		<id column="id" property="id" />
 		<result column="username" property="username" />
 		<result column="password" property="password" />
 		<result column="role" property="role" />
 		<result column="registertime" property="registertime" />
-		<association column="card_id" property="card" javaType="pojo.Card"
-			select="dao.CardMapper.selectCardById"></association>
+		<association column="card_id" property="card"
+			javaType="pojo.Card" select="dao.CardMapper.selectCardById"></association>
 	</resultMap>
-	
+
 	<!-- 方法二 -->
-	<select id="selectUserName2" parameterType="string" resultMap="userWithCardName2">
-		select * from user inner join card where user.card_id=card.id and
+	<select id="selectUserName2" parameterType="string"
+		resultMap="userWithCardName2">
+		select * from user inner join card where
+		user.card_id=card.id and
 		user.username=#{username}
 	</select>
-	
+
 	<resultMap type="pojo.User" id="userWithCardName2">
 		<id column="id" property="id" />
 		<result column="username" property="username" />
@@ -82,16 +105,20 @@
 			<result property="name" column="name" />
 			<result property="birthday" column="birthday" />
 			<result property="telephone" column="telephone" />
-			<result property="address" column="address" />			
+			<result property="address" column="address" />
 		</association>
 	</resultMap>
-	
+
 	<!-- 方法三 -->
-	<select id="selectUserName3" parameterType="string" resultType="pojo.UserCardVO">
-		select u.*,c.name,c.birthday,c.telephone card_telephone,c.address 
-		from user u inner join card c where u.card_id=c.id and u.username=#{username}
+	<select id="selectUserName3" parameterType="string"
+		resultType="pojo.UserCardVO">
+		select u.*,c.name,c.birthday,c.telephone
+		card_telephone,c.address
+		from user u inner join card c where
+		u.card_id=c.id and
+		u.username=#{username}
 	</select>
-	
+
 	<select id="selectUserByDate" parameterType="Date"
 		resultType="pojo.User">
 		select * from user where registertime > #{registertime}

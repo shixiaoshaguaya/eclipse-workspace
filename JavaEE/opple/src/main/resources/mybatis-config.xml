@@ -18,5 +18,6 @@
 		<mapper resource="dao/UserMapper.xml" />
 		<mapper resource="dao/ProductMapper.xml" />
 		<mapper resource="dao/CardMapper.xml" />
+		<mapper resource="dao/OrderMapper.xml" />
 	</mappers>
 </configuration>

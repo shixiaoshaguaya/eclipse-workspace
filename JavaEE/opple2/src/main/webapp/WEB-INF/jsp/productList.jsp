@@ -9,6 +9,44 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form action="productList3">
+		productList3
+		<label>产品ID</label>
+		<input name="productid">
+		<input type="submit" value="查询">
+	</form>
+	<form action="productName">
+		productName
+		<label>产品名称</label>
+		<input name="productname">
+		<input type="submit" value="查询">
+	</form>
+	<br />
+	<form action="productList4" method="post">
+		productList4
+		<label>产品ID</label>
+		<input name="productid">
+		<input type="submit" value="查询">
+	</form>
+	<form action="productName2" method="post">
+		productName2
+		<label>产品名称</label>
+		<input name="productname">
+		<input type="submit" value="查询">
+	</form>
+	<br />
+	<form action="productList5" method="post">
+		productList5
+		<label>产品ID</label>
+		<input name="productid">
+		<input type="submit" value="查询">
+	</form>
+	<form action="productName3" method="post">
+		productName3
+		<label>产品名称</label>
+		<input name="productname">
+		<input type="submit" value="查询">
+	</form>
 	<table width="100%" border=1>
 		<tr align="center">
 			<td>产品编号</td>

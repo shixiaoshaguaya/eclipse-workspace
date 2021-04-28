@@ -9,6 +9,26 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form action="userList3">
+		userList3
+		<label>用户ID</label>
+		<input name="userid">
+		<input type="submit" value="查询">
+	</form>
+	<br />
+	<form action="userList4" method="post">
+		userList4
+		<label>用户ID</label> 
+		<input name="userid"> 
+		<input type="submit" value="查询">
+	</form>
+	<br />
+	<form action="userList5" method="post">
+		userList5
+		<label>用户ID</label> 
+		<input name="userid"> 
+		<input type="submit" value="查询">
+	</form>
 	<table width="100%" border=1>
 		<tr align="center">
 			<td>用户编号</td>

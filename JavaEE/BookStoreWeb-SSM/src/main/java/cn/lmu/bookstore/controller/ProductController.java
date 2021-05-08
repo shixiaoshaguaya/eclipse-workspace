@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.lmu.bookstore.pojo.Category;
 import cn.lmu.bookstore.pojo.Product;
+import cn.lmu.bookstore.service.CategoryService;
 import cn.lmu.bookstore.service.ProductService;
 
 @CrossOrigin(origins = "*") // 支持跨域
@@ -19,6 +21,8 @@ import cn.lmu.bookstore.service.ProductService;
 public class ProductController {
 	@Autowired
 	private ProductService productService;
+	@Autowired // 控制器调用服务层中产品服务提供的产品功能
+	private CategoryService categoryService;
 
 	/**
 	 * API接口：返回JSON格式的产品列表
@@ -30,11 +34,21 @@ public class ProductController {
 		return products;
 	}
 
+//	@RequestMapping(value = "/search.action", method = { RequestMethod.POST, RequestMethod.GET })
+//	public String list2(String title, Model model) {
+//		List<Product> products = this.productService.getProductListByName(title);
+//		model.addAttribute("products", products);
+//		model.addAttribute("title", title);
+//		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
+//	}
+
 	@RequestMapping(value = "/search.action", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list2(String title, Model model) {
-		List<Product> products = this.productService.getProductListByName(title);
+	public String list3(Product product, Model model) {
+		List<Category> categorys = this.categoryService.getCategoryList();
+		model.addAttribute("categorys", categorys);
+		List<Product> products = this.productService.getProductListWhere(product);
 		model.addAttribute("products", products);
-		model.addAttribute("title", title);
+		model.addAttribute("product", product);
 		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
 	}
 
@@ -43,6 +57,8 @@ public class ProductController {
 	 */
 	@RequestMapping(value = "/list.action", method = { RequestMethod.POST, RequestMethod.GET })
 	public String list(Product product, Model model) {
+		List<Category> categorys = this.categoryService.getCategoryList();
+		model.addAttribute("categorys", categorys);
 		List<Product> products = this.productService.getProductListWhere(product);
 		model.addAttribute("products", products);
 		model.addAttribute("product", product);

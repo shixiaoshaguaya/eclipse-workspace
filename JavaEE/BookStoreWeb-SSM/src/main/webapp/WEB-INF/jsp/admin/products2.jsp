@@ -508,13 +508,15 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<form class="form-inline" method="get" action="search.action">
 						<div class="form-group">
 							<label for="title">产品名称</label> <input type="text"
-								class="form-control" id="title" name="title" placeholder="产品名称">
+								class="form-control" id="title" name="name"  value="${product.name}" placeholder="产品名称">
 						</div>
 						<div class="form-group">
 							<label for="category">产品类别</label> <select class="form-control"
-								name='category_name'>
+								name='category.name'>
+								<option value="">全部</option>
 								<c:forEach items="${categorys}" var="row">
-									<option>${row.name}</option>
+									<option value="${row.name}"
+										<c:if  test="${row.name ==  product.category.name}">selected</c:if>>${row.name}</option>
 								</c:forEach>
 							</select>
 						</div>

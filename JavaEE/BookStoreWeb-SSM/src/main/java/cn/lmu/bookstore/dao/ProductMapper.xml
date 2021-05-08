@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				p.id like "%"#{id}"%"
 			</if>
 			<if test="name != null and name !=''">
-				and p.name = #{name}
+				and p.name like CONCAT('%',#{name},'%')
 			</if>
 			<if test="category != null">
 				<if test="category.name != null and  category.name != ''">
@@ -95,6 +95,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="start !=null and rows != null">
 			limit #{start},#{rows}
 		</if>
+	</select>
+	<select id="getProductListByName" parameterType="string"
+		resultMap="ProductWithCategoryResult">
+		select p.id,p.name,price,categoryid,pnum,imgurl,
+		description,c.id as category_id,c.name as category_name
+		from product p inner join category c
+		on p.categoryid=c.id
+		where p.name like CONCAT('%',#{keyword},'%')
 	</select>
 	<!-- 查询总数 -->
 	<select id="getProductListCount" parameterType="Product"

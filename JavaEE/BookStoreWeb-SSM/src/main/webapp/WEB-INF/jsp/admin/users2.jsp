@@ -448,6 +448,11 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <i class="fa fa-circle-o"></i> 全部产品
                         </a>
                             </li>
+                            <li id="order-cancel">
+                                <a href="/BookStoreWeb-SSM/product/">
+                            <i class="fa fa-circle-o"></i> 上下架产品
+                        </a>
+                            </li>
 
                         </ul>
                     </li>

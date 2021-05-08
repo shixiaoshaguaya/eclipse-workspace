@@ -21,4 +21,6 @@ public interface ProductMapper {
 
 	// 删除产品
 	public int deleteProduct(String id);
+
+	public List<Product> getProductListByName(String title);
 }

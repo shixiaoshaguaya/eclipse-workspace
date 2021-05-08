@@ -30,6 +30,14 @@ public class ProductController {
 		return products;
 	}
 
+	@RequestMapping(value = "/search.action", method = { RequestMethod.POST, RequestMethod.GET })
+	public String list2(String title, Model model) {
+		List<Product> products = this.productService.getProductListByName(title);
+		model.addAttribute("products", products);
+		model.addAttribute("title", title);
+		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
+	}
+
 	/**
 	 * MVC方法：设置Model数据并请求JSP页面解析展示数据
 	 */

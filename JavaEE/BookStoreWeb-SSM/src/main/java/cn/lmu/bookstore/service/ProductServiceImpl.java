@@ -33,4 +33,8 @@ public class ProductServiceImpl implements ProductService {
 		return this.productMapper.deleteProduct(id);
 	}
 
+	public List<Product> getProductListByName(String title) {
+		return this.productMapper.getProductListByName(title);
+	}
+
 }

@@ -443,8 +443,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <ul class="treeview-menu">
 
                             <li id="order-manage">
-                                <a href="/BookStoreWeb-SSM/product/list.action">
+                                <a href="${pageContext.request.contextPath}/product/list.action">
                             <i class="fa fa-circle-o"></i> 全部产品
+                        </a>
+                            </li>
+                            <li id="order-cancel">
+                                <a href="${pageContext.request.contextPath}/product/">
+                            <i class="fa fa-circle-o"></i> 上下架产品
                         </a>
                             </li>
                         </ul>
@@ -462,7 +467,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                         <ul class="treeview-menu">
 
                             <li id="order-manage">
-                                <a href="/BookStoreWeb-SSM/user/list.action">
+                                <a href="${pageContext.request.contextPath}/user/list.action">
                             <i class="fa fa-circle-o"></i> 全部用户
                         </a>
                             </li>
@@ -494,10 +499,33 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
             <!-- 正文区域 -->
             <section class="content">
-
                 <!-- .box-body -->
                 <div class="box box-primary">
-                    <div class="box-header with-border">
+					<!-- search form -->
+					<div class="box-header with-border">
+						<h3 class="box-title">查询</h3>
+					</div>
+					<form class="form-inline" method="get" action="search.action">
+						<div class="form-group">
+							<label for="title">产品名称</label> <input type="text"
+								class="form-control" id="title" name="title" placeholder="产品名称">
+						</div>
+						<div class="form-group">
+							<label for="category">产品类别</label> <select class="form-control"
+								name='category_name'>
+								<c:forEach items="${categorys}" var="row">
+									<option>${row.name}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="form-group">
+							<button type="submit" id="search-btn" class="btn  btn-flat">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</form>
+					<!-- /.search form -->
+					<div class="box-header with-border">
                         <h3 class="box-title">列表</h3>
                     </div>
 
@@ -518,13 +546,18 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm" placeholder="搜索">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-                            </div>
-                            <!--工具栏/-->
+							<form class="form-inline" method="post"
+								action="list.action">
+								<div class="box-tools pull-right">
+									<div class="has-feedback">
+										<input type="text" class="form-control input-sm"
+											placeholder="搜索" id="name" value="${product.name }"
+								name="name" > <span
+											class="glyphicon glyphicon-search form-control-feedback"></span>
+									</div>
+								</div>
+							</form>
+							<!--工具栏/-->
 
                             <!--数据列表-->
                             <table  id="dataList"

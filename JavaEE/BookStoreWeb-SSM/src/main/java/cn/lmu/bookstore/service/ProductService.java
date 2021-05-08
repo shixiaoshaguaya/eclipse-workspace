@@ -14,4 +14,6 @@ public interface ProductService {
 	public int editProduct(Product product);
 
 	public int deleteProductById(String id);
+
+	public List<Product> getProductListByName(String title);
 }

@@ -505,7 +505,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<div class="box-header with-border">
 						<h3 class="box-title">查询</h3>
 					</div>
-					<form class="form-inline" method="get" action="search.action">
+					<form id="searchForm" class="form-inline" method="get" action="list.action">
+						<!-- 利用隐藏域记录当前的分页信息 -->
+						<input type="hidden"  id="pageNum" name="pageNum"  value="${pageInfo.pageNum}">
+	                    <input  type="hidden" name="pageSize"  value="${pageInfo.pageSize}">
 						<div class="form-group">
 							<label for="title">产品名称</label> <input type="text"
 								class="form-control" id="title" name="name"  value="${product.name}" placeholder="产品名称">
@@ -579,7 +582,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                  </tr>
                               </thead>
                               <tbody>
-                                 <c:forEach  items="${products}" var="row">
+                                 <c:forEach  items="${pageInfo.list}" var="row">
                                      <tr>
                                          <td><input name="ids" type="checkbox"></td>
                                          <td>${row.id}</td>
@@ -631,40 +634,34 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <!-- /.box-body -->
 
                     <!-- .box-footer-->
-                    <div class="box-footer">
-                        <div class="pull-left">
-                            <div class="form-group form-inline">
-                                总共2 页，共14 条数据。 每页
-                                <select class="form-control">
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                            <option>50</option>
-                            <option>80</option>
-                        </select> 条
-                            </div>
-                        </div>
-
-                        <div class="box-tools pull-right">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">首页</a>
-                                </li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">尾页</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                    <!-- /.box-footer-->
+					<div class="box-footer">
+						<div class="pull-left">
+							<div class="form-group form-inline">
+								总共${pageInfo.pages}
+								页，当前第${pageInfo.pageNum}页，共${pageInfo.total}条数据。 每页 <select
+									class="form-control">
+									<option ${pageInfo.pageSize=="10"?"selected='selected'":"pageInfo.pageSize=10"}>10</option>
+									<option ${pageInfo.pageSize=="15"?"selected='selected'":"pageInfo.pageSize=15"}>15</option>
+									<option ${pageInfo.pageSize=="20"?"selected='selected'":"pageInfo.pageSize=20"}>20</option>
+									<option ${pageInfo.pageSize=="50"?"selected='selected'":"pageInfo.pageSize=50"}>50</option>
+									<option ${pageInfo.pageSize=="80"?"selected='selected'":"pageInfo.pageSize=80"}>80</option>
+								</select> 条
+							</div>
+						</div>
+						<div class="box-tools  pull-right">
+							<ul class="pagination">
+								<li><a href="javascript:void(0)" aria-label="Previous"
+									onclick="form(${pageInfo.firstPage})">首页</a></li>
+								<li><a href="javascript:void(0)"
+									onclick="form(${pageInfo.hasPreviousPage?pageInfo.prePage:pageInfo.pageNum})">上一页</a></li>
+								<li><a href="javascript:void(0)"
+									onclick="form(${pageInfo.hasNextPage?pageInfo.nextPage:pageInfo.pageNum})">下一页</a></li>
+								<li><a href="javascript:void(0)" aria-label="Next"
+									onclick="form(${pageInfo.lastPage})">尾页</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- /.box-footer-->
 
 
                 </div>
@@ -775,6 +772,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 $(this).data("clicks", !clicks);
             });
         });
+        
+        // 分页脚本
+        function form(pageNum) {
+            $("#pageNum").val(pageNum);
+            $("#searchForm").submit();
+        }
     </script>
 </body>
 

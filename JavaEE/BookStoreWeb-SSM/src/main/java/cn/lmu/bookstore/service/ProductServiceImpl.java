@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import cn.lmu.bookstore.dao.ProductMapper;
 import cn.lmu.bookstore.pojo.Product;
 
@@ -35,6 +38,14 @@ public class ProductServiceImpl implements ProductService {
 
 	public List<Product> getProductListByName(String title) {
 		return this.productMapper.getProductListByName(title);
+	}
+
+	public PageInfo<Product> getProductListWhereByPage(Product product, Integer pageNum, Integer pageSize) {
+		// 分页
+		PageHelper.startPage(pageNum, pageSize);// page 指定页码，pageSize 为每页显示几条数据
+		List<Product> list = this.productMapper.getProductList(product);// 调用查询
+		PageInfo<Product> pageInfo = new PageInfo(list);
+		return pageInfo;
 	}
 
 }

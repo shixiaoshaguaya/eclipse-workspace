@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageInfo;
 
 import cn.lmu.bookstore.pojo.Category;
 import cn.lmu.bookstore.pojo.Product;
@@ -42,25 +45,28 @@ public class ProductController {
 //		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
 //	}
 
-	@RequestMapping(value = "/search.action", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list3(Product product, Model model) {
-		List<Category> categorys = this.categoryService.getCategoryList();
-		model.addAttribute("categorys", categorys);
-		List<Product> products = this.productService.getProductListWhere(product);
-		model.addAttribute("products", products);
-		model.addAttribute("product", product);
-		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
-	}
+//	@RequestMapping(value = "/search.action", method = { RequestMethod.POST, RequestMethod.GET })
+//	public String list3(Product product, Model model) {
+//		List<Category> categorys = this.categoryService.getCategoryList();
+//		model.addAttribute("categorys", categorys);
+//		List<Product> products = this.productService.getProductListWhere(product);
+//		model.addAttribute("products", products);
+//		model.addAttribute("product", product);
+//		return "admin/products2";// 转向由视图解析器去解析数据，此处明确视图页面为admin/products.jsp
+//	}
 
 	/**
 	 * MVC方法：设置Model数据并请求JSP页面解析展示数据
 	 */
 	@RequestMapping(value = "/list.action", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list(Product product, Model model) {
+	public String list(@RequestParam(defaultValue = "1") Integer pageNum,
+			@RequestParam(defaultValue = "10") Integer pageSize, Product product, Model model) {
 		List<Category> categorys = this.categoryService.getCategoryList();
 		model.addAttribute("categorys", categorys);
-		List<Product> products = this.productService.getProductListWhere(product);
-		model.addAttribute("products", products);
+//		List<Product> products = this.productService.getProductListWhere(product);
+//		model.addAttribute("products", products);
+		PageInfo<Product> pageInfo = this.productService.getProductListWhereByPage(product, pageNum, pageSize);
+		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("product", product);
 		return "admin/products2";
 	}

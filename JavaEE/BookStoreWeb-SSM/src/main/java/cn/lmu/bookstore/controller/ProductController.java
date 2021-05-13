@@ -110,14 +110,10 @@ public class ProductController {
 	/**
 	 * 删除产品
 	 */
-	@RequestMapping("/delete.action")
+	@RequestMapping(value = "/delete.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String delete(String id) {
-		int rows = this.productService.deleteProductById(id);
-		if (rows > 0) {
-			return "OK";
-		} else {
-			return "FAIL";
-		}
+	public String delete(@RequestParam(value = "idArr") String[] idArr) {
+		this.productService.deleteProductByIds(idArr);
+		return "success";
 	}
 }

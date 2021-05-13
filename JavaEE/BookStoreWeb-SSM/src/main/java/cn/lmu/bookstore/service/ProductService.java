@@ -20,4 +20,6 @@ public interface ProductService {
 	public List<Product> getProductListByName(String title);
 
 	public PageInfo<Product> getProductListWhereByPage(Product product, Integer pageNum, Integer pageSize);
+
+	public void deleteProductByIds(String[] idArr);
 }

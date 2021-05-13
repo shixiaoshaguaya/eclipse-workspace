@@ -116,6 +116,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteProduct" parameterType="String">
 		delete from product where id=#{id}
 	</delete>
+	<!-- 删除一组产品 -->
+     <delete id="deleteProducts">
+        delete from product where id in
+        <foreach collection="array"  item="item_id" separator="," open="("  close=")">
+                     #{item_id}
+      </foreach>
+    </delete>
 	<resultMap type="Product" id="ProductWithCategoryResult">
 		<id property="id" column="id" />
 		<result property="name" column="name" />

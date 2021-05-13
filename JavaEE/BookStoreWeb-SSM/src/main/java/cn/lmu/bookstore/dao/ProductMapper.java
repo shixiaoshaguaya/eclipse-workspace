@@ -23,4 +23,6 @@ public interface ProductMapper {
 	public int deleteProduct(String id);
 
 	public List<Product> getProductListByName(String title);
+
+	public void deleteProducts(String[] idArr);
 }

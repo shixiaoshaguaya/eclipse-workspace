@@ -544,7 +544,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" title="删除" onclick='del();'><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启</button>
                                         <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
@@ -584,7 +584,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                               <tbody>
                                  <c:forEach  items="${pageInfo.list}" var="row">
                                      <tr>
-                                         <td><input name="ids" type="checkbox"></td>
+                                         <td><input name="ids" type="checkbox" value="${row.id}"></td>
                                          <td>${row.id}</td>
                                          <td>${row.name}</td>
                                          <td>${row.price}</td>
@@ -778,6 +778,36 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
             $("#pageNum").val(pageNum);
             $("#searchForm").submit();
         }
+        
+        //删除
+        function del(){                  
+            var idArr = new Array();
+            $.each($("input[name='ids']:checked"),function(){
+                idArr.push($(this).val());
+			});
+            if(idArr.length==0){
+            	alert('您还未选择要删除的数据！');
+            	return;
+            }
+            if(confirm('您确定要删除所选记录？')){                   
+			    $.ajax({
+					url:"${pageContext.request.contextPath}/product/delete.action",
+					type:"POST",
+					traditional : "true",
+					dataType:"text",//预期服务器返回数据类型
+					data:{
+			        	"idArr":idArr
+			        },
+			        success:function(){
+			        	alert("删除成功！");   
+			        	$("input[name='ids']:checked").each(function() { // 遍历选中的checkbox
+			        		$(this).parents("tr").remove();  // 获取checkbox所在行并删除                          
+			       		});
+			                                         
+			        }
+				});  
+			}
+		}
     </script>
 </body>
 

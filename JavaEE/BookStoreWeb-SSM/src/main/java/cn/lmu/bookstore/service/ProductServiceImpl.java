@@ -48,4 +48,9 @@ public class ProductServiceImpl implements ProductService {
 		return pageInfo;
 	}
 
+	public void deleteProductByIds(String[] idArr) {
+		// TODO Auto-generated method stub
+		this.productMapper.deleteProducts(idArr);
+	}
+
 }

@@ -1,6 +1,12 @@
 package cn.lmu.bookstore.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 
@@ -72,17 +79,41 @@ public class ProductController {
 	}
 
 	/**
-	 * 创建
+	 * 请求新增时返回新增页面
 	 */
-	@RequestMapping(value = "/create.action")
+	@RequestMapping(value = "/insert.action", method = { RequestMethod.GET })
+	public String insert(Model model) {
+		List<Category> categorys = this.categoryService.getCategoryList();
+		model.addAttribute("categorys", categorys);
+		return "admin/Product-Edit";
+	}
+
+	/**
+	 * 新增保存请求
+	 */
+	@RequestMapping(value = "/insert.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String Create(Product product) {
-		// 执行Service层中的创建方法，返回的是受影响的行数
-		int rows = this.productService.createProduct(product);
-		if (rows > 0) {
+	public String save(Model model, HttpServletRequest request, MultipartFile file, Product product)
+			throws IllegalStateException, IOException {
+		product.setId(UUID.randomUUID().toString());
+		System.out.println(product);
+		String fileName = file.getOriginalFilename();
+		String path = "D:\\apache-tomcat\\tomcat-upload";
+		;
+		File tempFile = new File(path, new Date().getTime() + String.valueOf(fileName));
+		if (!tempFile.getParentFile().exists()) {
+			tempFile.getParentFile().mkdir();
+		}
+		if (!tempFile.exists()) {
+			tempFile.createNewFile();
+		}
+		file.transferTo(tempFile);
+		product.setImgurl(tempFile.getName());
+		int rowCount = this.productService.createProduct(product);
+		if (rowCount > 0) {
 			return "OK";
 		} else {
-			return "FAIL";
+			return "ERROR";
 		}
 	}
 

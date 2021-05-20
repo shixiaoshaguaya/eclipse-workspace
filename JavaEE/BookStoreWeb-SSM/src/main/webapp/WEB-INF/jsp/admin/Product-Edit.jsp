@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -141,171 +140,131 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <!-- 导航侧栏 /-->
 
         <!-- 内容区域 -->
-        <div class="content-wrapper">
+		<div class="content-wrapper">
 
-            <!-- 内容头部 -->
-            <section class="content-header">
-                <h1>
-                    用户管理
-                    <small>全部用户</small>
-                </h1>
-                <ol class="breadcrumb">
-                    <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-                    <li><a href="all-order-manage-list.html">用户管理</a></li>
-                    <li class="active">全部用户</li>
-                </ol>
-            </section>
-            <!-- 内容头部 /-->
+			<!-- 内容头部 -->
+			<section class="content-header">
+				<h1>
+					产品管理 <small>产品新增表单</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="all-admin-index.html"><i
+							class="fa fa-dashboard"></i> 首页</a></li>
+					<li><a href="all-travellog-manage-list.html">产品管理</a></li>
+					<li class="active">产品新增表单</li>
+				</ol>
+			</section>
+			<!-- 内容头部 /-->
 
-            <!-- 正文区域 -->
-            <section class="content">
+			<!-- 正文区域 -->
+			<section class="content">
 
-                <!-- .box-body -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">列表</h3>
-                    </div>
+				<div class="box-body">
 
-                    <div class="box-body">
+					<!--tab页-->
+					<div class="nav-tabs-custom">
 
-                        <!-- 数据表格 -->
-                        <div class="table-box">
+						<!--tab头-->
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab-form" data-toggle="tab">表单</a>
+							</li>
+						</ul>
+						<!--tab头/-->
 
-                            <!--工具栏-->
-                            <div class="pull-left">
-                                <div class="form-group form-inline">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
-                                        <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启</button>
-                                        <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
-                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm" placeholder="搜索">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-                            </div>
-                            <!--工具栏/-->
+						<!--tab内容-->
+						<div class="tab-content">
 
-                            <!--数据列表-->
-							<table id="dataList"
-								class="table  table-bordered table-striped table-hover  dataTable">
-								<thead>
-									<tr>
-										<th class="" style="padding-right: 0px;"><input
-											id="selall" type="checkbox" class="icheckbox_square-blue">
-										</th>
-										<th class="sorting_asc">用户ID</th>
-										<th class="sorting">姓名</th>
-										<th class="sorting">性别</th>
-										<th class="sorting">EMAIL</th>
-										<th class="sorting">联系电话</th>
-										<th class="sorting">介绍</th>
-										<th class="text-center">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${users}" var="row">
-										<tr>
-											<td><input name="ids" type="checkbox"></td>
-											<td>${row.id}</td>
-											<td>${row.username}</td>
-											<td>${row.gender}</td>
-											<td>${row.email}</td>
-											<td>${row.telephone}</td>
-											<td>${row.introduce}</td>
-											<td class="text-center">
-												<button type="button" class="btn bg-olive  btn-xs"
-													onclick='location.href="all-order-manage-edit.html"'>订单</button>
-												<button type="button" class="btn bg-olive  btn-xs"
-													onclick='location.href="all-order-manage-edit.html"'>详情</button>
-												<button type="button" class="btn bg-olive  btn-xs"
-													onclick='location.href="all-order-manage-edit.html"'>编辑</button>
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-							<!--数据列表/-->
+							<!--表单内容-->
+							<form id="prodForm" action="inser.action" method="post"
+								enctype="multipart/form-data">
+								<div class="tab-pane active" id="tab-form">
+									<div class="row data-type">
+										<div class="col-md-2 title">ID</div>
+										<div class="col-md-10 data text"></div>
+										<div class="col-md-2 title">产品名称</div>
+										<div class="col-md-10 data">
+											<input type="text" class="form-control" placeholder="产品名称"
+												id="name" name="name" value="">
+										</div>
+										<div class="col-md-2 title">产品单价</div>
+										<div class="col-md-10 data">
+											<input type="number" class="form-control" placeholder="产品单价"
+												id="price" name="price" value="">
+										</div>
+										<div class="col-md-2 title">库存数量</div>
+										<div class="col-md-10 data">
+											<input type="number" class="form-control" placeholder="库存数量"
+												id="pnum" name="pnum" value="">
+										</div>
+										<div class="col-md-2 title">产品类别</div>
+										<div class="col-md-10 data">
+											<select class="form-control select2" id="categoryid"
+												name='category.id'>
+												<c:forEach items="${categorys}" var="row">
+													<option value="${row.id}"
+														<c:if test="${row.name ==  product.category.name}">selected</c:if>>
+														${row.name}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="col-md-2 title">产品样图</div>
+										<div class="col-md-10 data">
+											<input type="file" class="form-control" placeholder="产品样图"
+												id="file" name="file" value="">
+										</div>
+									</div>
+									<!--产品详情-->
+									<div class="panel panel-default">
+										<div class="panel-heading">产品详情</div>
+										<!--
+                                      -->
+										<input type="hidden" id="description2" name="description2">
+										<div id="dayslist" class="panel-body">
+											<div class="box box-info">
+												<!-- /.box-header -->
+												<div class="box-body pad">
+													<textarea id="description" name="description"
+														class="textarea" rows="10" cols="80">                                         
+                    </textarea>
+												</div>
+											</div>
+											<!-- /.box -->
+										</div>
+									</div>
+									<!--游记/-->
+									<!--工具栏-->
+									<div class="box-tools text-center">
+										<button type="button" class="btn bg-maroon" onclick="save();">保存</button>
+										<button type="button" class="btn bg-default"
+											onclick="history.back(-1);">返回</button>
+									</div>
+									<!--工具栏/-->
+								</div>
+							</form>
+							<!--表单内容/-->
 
-                            <!--工具栏-->
-                            <div class="pull-left">
-                                <div class="form-group form-inline">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
-                                        <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启</button>
-                                        <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
-                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm" placeholder="搜索">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-                            </div>
-                            <!--工具栏/-->
+						</div>
+						<!--tab内容/-->
 
-                        </div>
-                        <!-- 数据表格 /-->
+					</div>
+					<!--tab页/-->
 
 
-                    </div>
-                    <!-- /.box-body -->
+					<!-- .box-footer
+        <div class="box-footer"></div>
+        -->
+					<!-- /.box-footer-->
 
-                    <!-- .box-footer-->
-                    <div class="box-footer">
-                        <div class="pull-left">
-                            <div class="form-group form-inline">
-                                总共2 页，共14 条数据。 每页
-                                <select class="form-control">
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                            <option>50</option>
-                            <option>80</option>
-                        </select> 条
-                            </div>
-                        </div>
+				</div>
 
-                        <div class="box-tools pull-right">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">首页</a>
-                                </li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">尾页</a>
-                                </li>
-                            </ul>
-                        </div>
+			</section>
+			<!-- 正文区域 /-->
 
-                    </div>
-                    <!-- /.box-footer-->
-
-
-                </div>
-
-            </section>
-            <!-- 正文区域 /-->
-
-        </div>
-        <!-- 内容区域 /-->
+		</div>
+		<!-- 内容区域 /-->
 
         <!-- 底部导航 -->
-       	<%@ include file="Footer.jsp"%>
+		<%@ include file="Footer.jsp"%>
         <!-- 底部导航 /-->
 
     </div>
@@ -314,8 +273,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
     <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
+					$.widget.bridge('uibutton', $.ui.button);
+				</script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/raphael/raphael-min.js"></script>
     <script src="../plugins/morris/morris.min.js"></script>
@@ -381,7 +340,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         $(document).ready(function() {
 
             // 激活导航位置
-            setSidebarActive("order-user");
+            setSidebarActive("product-insert");
 
             // 列表按钮 
             $("#dataList td input[type='checkbox']").iCheck({
@@ -399,6 +358,55 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 $(this).data("clicks", !clicks);
             });
         });
+        
+        // 分页脚本
+        function form(pageNum) {
+            $("#pageNum").val(pageNum);
+            $("#searchForm").submit();
+        }
+        
+        // 保存
+        function save(){
+       		//采用默认JSON数据POST方式时，先构建JSON对象，本功能采用FORMDATA方式，该代码可忽略
+	        var productData={
+	            "id":"",
+	            "name":$("#name").val(),
+	            "price":$("#price").val(),
+	            "pnum":$("#pnum").val(),
+	            "imgurl":$("#imgurl").val(),
+	            //"description":CKEDITOR.instances['descriptionText'].getData(),
+	            "category":{
+		            "id":$("#categoryid").val(),
+		            "name":$("#categoryid").find("option:selected").text().trim()
+	            }
+	        };
+            console.log(productData);
+	        //使用CK编辑器时，获取编辑器结果动态置入输入域
+	        //var  text=CKEDITOR.instances['descriptionText'].getData();
+	        //$("#description").val(text);
+
+        	//步骤1：利用FormData获取表单数据
+        	var formData = new  FormData(document.getElementById("prodForm"));
+        	console.log(formData);
+        	//步骤2：利用Ajax发起新产品保存功能
+            $.ajax({
+            	url:"${pageContext.request.contextPath}/product/insert.action",
+                type:"POST",
+                // traditional : "true",
+                dataType:"text",//预期服务器返回数据类型
+                //  data:JSON.stringify(productData),
+                //contentType:  "application/json;charset=UTF-8",
+                async: false,  
+                cache: false,        
+                contentType:false,
+                data:formData,
+                processData:false,
+                success:function(data){
+	                alert(data);
+	                alert("保存成功！");   
+                }
+            });  
+       }
     </script>
 </body>
 

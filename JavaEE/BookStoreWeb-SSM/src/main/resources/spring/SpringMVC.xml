@@ -24,6 +24,14 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<mvc:interceptors>
+       <!--登录拦截器 -->
+       <mvc:interceptor>
+           <mvc:mapping path="/**" />
+           <bean  class="cn.lmu.bookstore.interceptor.LoginInterceptor" />
+       </mvc:interceptor>
+    </mvc:interceptors>
+	
 	<!-- 定义文件上传解析器 -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -21,4 +21,6 @@ public interface UserMapper {
 	public int deleteUser(int id);
 
 	public void deleteUsers(String[] idArr);
+
+	public User checkLogin(User user);
 }

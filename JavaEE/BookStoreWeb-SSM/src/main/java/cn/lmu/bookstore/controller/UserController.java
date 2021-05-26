@@ -2,6 +2,8 @@ package cn.lmu.bookstore.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,50 @@ public class UserController {
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("user", user);
 		return "admin/users2";
+	}
+
+	/**
+	 * 向用户返回登录页面
+	 */
+	@RequestMapping(value = "/login.action", method = RequestMethod.GET)
+	public String toLogin() {
+		return "login";
+	}
+
+	/**
+	 * 用户登录
+	 * 
+	 * @param user
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/login.action", method = RequestMethod.POST)
+	public String login(User user, Model model, HttpSession session) {
+		// 从数据库中获取对用户名和密码后进行判断
+		User loginedUser = this.userService.checkLogin(user);
+		if (loginedUser != null) {
+			// 将用户对象添加到Session中
+			session.setAttribute("USER_SESSION", loginedUser);
+			// 重定向到主页面的跳转方法
+			if (session.getAttribute("fromUrl") != null) {
+				String fromUrl = session.getAttribute("fromUrl").toString();
+				fromUrl = fromUrl.substring(fromUrl.indexOf("/", 1));
+				return "redirect:" + fromUrl;
+			} else {
+				return "redirect:product/list.action";
+			}
+		}
+		model.addAttribute("msg", "用户名或密码错误，请重新登录！");
+		return "login";
+	}
+
+	@RequestMapping(value = "/logout.action")
+	public String logout(HttpSession session) {
+		// 清除session
+		session.invalidate();
+		// 重定向到登录页面的跳转方法
+		return "redirect:login.action";
 	}
 
 	/**

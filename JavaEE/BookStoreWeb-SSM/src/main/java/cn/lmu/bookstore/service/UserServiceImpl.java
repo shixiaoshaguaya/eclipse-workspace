@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		this.userMapper.deleteUsers(idArr);
 	}
+
+	public User checkLogin(User user) {
+		// TODO Auto-generated method stub
+		return this.userMapper.checkLogin(user);
+	}
 }

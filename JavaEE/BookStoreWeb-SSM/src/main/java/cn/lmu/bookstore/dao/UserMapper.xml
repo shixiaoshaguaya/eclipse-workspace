@@ -12,6 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
 	
+	<!-- 登录验证 -->
+	 <select id="checkLogin"  parameterType="User" resultType="User">
+       select * from user where  username=#{username} and  `password`=#{password}
+    </select>
+	
 	<!-- 新增用户 -->
 	<insert id="createUser" parameterType="User">
 		insert into user(username, password, gender, email, telephone, introduce)

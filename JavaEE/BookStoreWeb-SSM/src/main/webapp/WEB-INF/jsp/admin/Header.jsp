@@ -205,7 +205,7 @@
 					<li class="dropdown user user-menu"><a href="#"
 						class="dropdown-toggle" data-toggle="dropdown"> <img
 							src="../img/user2-160x160.jpg" class="user-image"
-							alt="User Image"> <span class="hidden-xs">张猿猿</span>
+							alt="User Image"> <span class="hidden-xs">${USER_SESSION.username}</span>
 					</a>
 						<ul class="dropdown-menu">
 							<!-- User image -->
@@ -213,7 +213,7 @@
 								class="img-circle" alt="User Image">
 
 								<p>
-									张猿猿 - 数据管理员 <small>最后登录 11:20AM</small>
+									${USER_SESSION.username} -  ${USER_SESSION.role}
 								</p></li>
 							<!-- Menu Body 
                         <li class="user-body">
@@ -235,7 +235,7 @@
 									<a href="#" class="btn btn-default btn-flat">修改密码</a>
 								</div>
 								<div class="pull-right">
-									<a href="#" class="btn btn-default btn-flat">注销</a>
+									<a href="<%=request.getContextPath()%>/user/login.action"" class="btn btn-default btn-flat">注销</a>
 								</div>
 							</li>
 						</ul></li>

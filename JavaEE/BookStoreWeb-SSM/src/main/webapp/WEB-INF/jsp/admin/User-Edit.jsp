@@ -366,17 +366,18 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         
         // 保存
         function save(){
+        	var id = $("#id").val();
             var username = $("#username").val();
             var password = $('#password').val();
             var gender = $("#gender").val();
             var email = $("#email").val();
             var telephone = $("#telephone").val();
-            var introduce = $("#introduce").val();
+			var introduce = $("#introduce").val();
        		//采用默认JSON数据POST方式时，先构建JSON对象，本功能采用FORMDATA方式，该代码可忽略
 	        var userData={
 	            "id":"",
 	            "username": $("#username").val(),
-	            "password": $('#password').val(),
+	            "password": $("#password").val(),
 	            "gender": $("#gender").val(),
 	            "email": $("#email").val(),
 	            "telephone": $("#telephone").val(),

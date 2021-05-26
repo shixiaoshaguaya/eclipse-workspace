@@ -21,4 +21,6 @@ public interface UserService {
 
 	public void deleteUserByIds(String[] idArr);
 
+	public User checkLogin(User user);
+
 }

@@ -124,17 +124,44 @@ public class ProductController {
 		return product;
 	}
 
+	// 请求产品编辑页面
+	@RequestMapping(value = "/edit.action", method = { RequestMethod.GET })
+	public String edit(Model model, String id) {
+		List<Category> categorys = this.categoryService.getCategoryList();
+		model.addAttribute("categorys", categorys);
+		Product product = this.productService.getProductById(id);
+		model.addAttribute("product", product);// 将要编辑的产品原有数据传输到前端
+		return "admin/Product-Edit";
+	}
+
 	/**
 	 * 更新产品
 	 */
-	@RequestMapping("/update.action")
+	@RequestMapping(value = "/edit.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String update(Product product) {
-		int rows = this.productService.editProduct(product);
-		if (rows > 0) {
+	public String update(Model model, HttpServletRequest request, MultipartFile file, Product product)
+			throws IllegalStateException, IOException {
+		System.out.println(product);
+		if (file.getSize() > 0) {// 判断本次编辑中用户是否上传新的产品图片，如果上传则需要保存图片并修改数据库中图片路径
+			String fileName = file.getOriginalFilename();
+			String path = "D:\\apache-tomcat\\tomcat-upload";
+			;
+			File tempFile = new File(path, new Date().getTime() + String.valueOf(fileName));
+			if (!tempFile.getParentFile().exists()) {
+				tempFile.getParentFile().mkdir();
+			}
+			if (!tempFile.exists()) {
+				tempFile.createNewFile();
+			}
+			file.transferTo(tempFile);
+			product.setImgurl(tempFile.getName());// 修改产品图片路径
+		}
+		// 如果没有修改图片路径，则意味着不修改数据库中相应字段的值！！！
+		int rowCount = this.productService.editProduct(product);
+		if (rowCount > 0) {
 			return "OK";
 		} else {
-			return "FAIL";
+			return "ERROR";
 		}
 	}
 

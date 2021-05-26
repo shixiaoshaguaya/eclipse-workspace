@@ -74,6 +74,10 @@
 								class="fa fa-circle-o"></i> 全部用户
 						</a></li>
 
+						<li id="user-insert"><a
+							href="${pageContext.request.contextPath}/user/insert.action"> <i
+								class="fa fa-circle-o"></i> 用户新增
+						</a></li>
 					</ul></li>
 			</ul>
 		</section>

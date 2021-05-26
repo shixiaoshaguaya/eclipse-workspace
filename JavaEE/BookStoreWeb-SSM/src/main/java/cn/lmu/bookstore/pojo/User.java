@@ -5,7 +5,7 @@ import java.util.Date;
 public class User {
 	private int id; // 用户编号
 	private String username; // 用户姓名
-	private String PASSWORD; // 用户密码
+	private String password; // 用户密码
 	private String gender; // 用户性别
 	private String email; // 用户邮箱
 	private String telephone; // 用户联系电话
@@ -32,11 +32,11 @@ public class User {
 	}
 
 	public String getPassword() {
-		return PASSWORD;
+		return password;
 	}
 
-	public void setPassword(String PASSWORD) {
-		this.PASSWORD = PASSWORD;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getGender() {
@@ -107,12 +107,12 @@ public class User {
 		super();
 	}
 
-	public User(int id, String username, String PASSWORD, String gender, String email, String telephone,
+	public User(int id, String username, String password, String gender, String email, String telephone,
 			String introduce, String activeCode, int state, String role, Date registTime) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.PASSWORD = PASSWORD;
+		this.password = password;
 		this.gender = gender;
 		this.email = email;
 		this.telephone = telephone;

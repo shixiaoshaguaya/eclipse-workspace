@@ -3,34 +3,21 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lmu.bookstore.dao.UserMapper">
+	<!--SQL片段 -->
+	<sql id="getUserListWhere">
+		<where>
+			<if test="username != null">
+				user.username like CONCAT('%',#{username},'%')
+			</if>
+		</where>
+	</sql>
+	
 	<!-- 新增用户 -->
 	<insert id="createUser" parameterType="User">
-		insert into user(
-		id,
-		username,
-		PASSWORD,
-		gender,
-		email,
-		telephone,
-		introduce,
-		activeCode,
-		state,
-		role,
-		registTime
-		)
-		values(#{id},
-		#{username},
-		#{PASSWORD},
-		#{gender},
-		#{email},
-		#{telephone},
-		#{introduce},
-		#{activeCode},
-		#{state},
-		#{role},
-		#{registTime}
-		)
+		insert into user(username, password, gender, email, telephone, introduce)
+		values(#{username}, #{password}, #{gender}, #{email}, #{telephone}, #{introduce})
 	</insert>
+	
 	<!-- 更新 -->
 	<update id="editUser" parameterType="User">
 		update user
@@ -38,8 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="username!=null">
 				username=#{username},
 			</if>
-			<if test="PASSWORD!=null">
-				PASSWORD=#{PASSWORD},
+			<if test="password!=null">
+				password=#{password},
 			</if>
 			<if test="gender != null">
 				gender= #{gender},
@@ -56,35 +43,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		where id=#{id}
 	</update>
+	
+	<!-- 查找 -->
 	<select id="getUserById" parameterType="int"
 		resultMap="UserWithCategoryResult">
-		select id,
-		username,
-		PASSWORD,
-		gender,
-		email,
-		telephone,
-		introduce,activeCode,state,role,registTime
-		from user
-		where id=#{id}
+		select * from user where id=#{id}
 	</select>
+	
+	<!-- 查询 -->
 	<select id="getUserList" parameterType="User"
 		resultMap="UserWithCategoryResult">
 		select * from user
+		<include refid="getUserListWhere" />
 	</select>
-	<!-- 查询总数 -->
-	<select id="getUserListCount" parameterType="User"
-		resultType="Integer">
-		select count(*) from User
-	</select>
+	
 	<!-- 删除产品 -->
 	<delete id="deleteUser" parameterType="int">
 		delete from user where id=#{id}
 	</delete>
+	
+	<!-- 删除一组产品 -->
+    <delete id="deleteUsers">
+        delete from user where id in
+        <foreach collection="array"  item="item_id" separator="," open="("  close=")">
+                     #{item_id}
+      </foreach>
+    </delete>
+    
 	<resultMap type="User" id="UserWithCategoryResult">
 		<id property="id" column="id" />
 		<result property="username" column="username" />
-		<result property="PASSWORD" column="PASSWORD" />
+		<result property="password" column="password" />
 		<result property="gender" column="gender" />
 		<result property="email" column="email" />
 		<result property="telephone" column="telephone" />

@@ -145,13 +145,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<!-- 内容头部 -->
 			<section class="content-header">
 				<h1>
-					产品管理 <small>产品新增表单</small>
+					用户管理 <small>用户新增表单</small>
 				</h1>
 				<ol class="breadcrumb">
 					<li><a href="all-admin-index.html"><i
 							class="fa fa-dashboard"></i> 首页</a></li>
-					<li><a href="all-travellog-manage-list.html">产品管理</a></li>
-					<li class="active">产品新增表单</li>
+					<li><a href="all-travellog-manage-list.html">用户管理</a></li>
+					<li class="active">用户新增表单</li>
 				</ol>
 			</section>
 			<!-- 内容头部 /-->
@@ -179,48 +179,43 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								enctype="multipart/form-data">
 								<div class="tab-pane active" id="tab-form">
 									<div class="row data-type">
-										<div class="col-md-2 title">ID</div>
-										<div class="col-md-10 data text"><input  type="hidden" id="id" value="${product.id}"  name="id">${product.id}</div>
-										<div class="col-md-2 title">产品名称</div>
-										<div class="col-md-10 data">
-											<input type="text" class="form-control" placeholder="产品名称"
-												id="name" name="name" value="${product.name}">
+										<div class="col-md-2 title">用户ID</div>
+										<div class="col-md-10 data text">
+											<input type="hidden" id="id" value="${user.id}" name="id">${user.id}
 										</div>
-										<div class="col-md-2 title">产品单价</div>
+										<div class="col-md-2 title">姓名</div>
 										<div class="col-md-10 data">
-											<input type="number" class="form-control" placeholder="产品单价"
-												id="price" name="price" value="${product.price}">
+											<input type="text" class="form-control" placeholder="姓名"
+												id="username" name="username" value="${user.username}">
 										</div>
-										<div class="col-md-2 title">库存数量</div>
+										<div class="col-md-2 title">密码</div>
 										<div class="col-md-10 data">
-											<input type="number" class="form-control" placeholder="库存数量"
-												id="pnum" name="pnum" value="${product.pnum}">
+											<input type="password" class="form-control" placeholder="密码"
+												id="password" name="password" value="${user.password}">
 										</div>
-										<div class="col-md-2 title">产品类别</div>
+										<div class="col-md-2 title">性别</div>
 										<div class="col-md-10 data">
-											<select class="form-control select2" id="categoryid"
-												name='category.id'>
-												<c:forEach items="${categorys}" var="row">
-													<option value="${row.id}"
-														<c:if test="${row.name ==  product.category.name}">selected</c:if>>
-														${row.name}</option>
-												</c:forEach>
-											</select>
+											<input type="text" class="form-control" placeholder="性别"
+												id="gender" name="gender" value="${user.gender}">
 										</div>
-										<div class="col-md-2 title">产品样图</div>
-										<div  class="col-md-6 data">
-                                        	<img src="/upload/${product.imgurl}"></img>
-                                     	</div>
-										<div class="col-md-2 data">
-											<input type="file" class="form-control" placeholder="产品样图"
-												id="file" name="file" value="">
+										<div class="col-md-2 title">EMAIL</div>
+										<div class="col-md-10 data">
+											<input type="text" class="form-control" placeholder="EMAIL"
+												id="email" name="email" value="${user.email}">
+										</div>
+										<div class="col-md-2 title">联系电话</div>
+										<div class="col-md-10 data">
+											<input type="text" class="form-control" placeholder="联系电话"
+												id="telephone" name="telephone" value="${user.telephone}">
+										</div>
+										<div class="col-md-2 title">介绍</div>
+										<div class="col-md-10 data">
+											<input type="text" class="form-control" placeholder="介绍"
+												id="introduce" name="introduce" value="${user.introduce}">
 										</div>
 									</div>
-									<!--产品详情-->
 									<div class="panel panel-default">
-										<div class="panel-heading">产品详情</div>
-										<!--
-                                      -->
+										<div class="panel-heading">介绍</div>
 										<input type="hidden" id="description2" name="description2">
 										<div id="dayslist" class="panel-body">
 											<div class="box box-info">
@@ -228,7 +223,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 												<div class="box-body pad">
 													<textarea id="description" name="description"
 														class="textarea" rows="10" cols="80">                                         
-                    </textarea>
+                    								</textarea>
 												</div>
 											</div>
 											<!-- /.box -->
@@ -344,7 +339,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         $(document).ready(function() {
 
             // 激活导航位置
-            setSidebarActive("product-insert");
+            setSidebarActive("user-insert");
 
             // 列表按钮 
             $("#dataList td input[type='checkbox']").iCheck({
@@ -371,43 +366,37 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         
         // 保存
         function save(){
+            var username = $("#username").val();
+            var password = $('#password').val();
+            var gender = $("#gender").val();
+            var email = $("#email").val();
+            var telephone = $("#telephone").val();
+            var introduce = $("#introduce").val();
        		//采用默认JSON数据POST方式时，先构建JSON对象，本功能采用FORMDATA方式，该代码可忽略
-	        var productData={
+	        var userData={
 	            "id":"",
-	            "name":$("#name").val(),
-	            "price":$("#price").val(),
-	            "pnum":$("#pnum").val(),
-	            "imgurl":$("#imgurl").val(),
-	            //"description":CKEDITOR.instances['descriptionText'].getData(),
-	            "category":{
-		            "id":$("#categoryid").val(),
-		            "name":$("#categoryid").find("option:selected").text().trim()
-	            }
+	            "username": $("#username").val(),
+	            "password": $('#password').val(),
+	            "gender": $("#gender").val(),
+	            "email": $("#email").val(),
+	            "telephone": $("#telephone").val(),
+	            "introduce": $("#introduce").val()
 	        };
-            console.log(productData);
-	        //使用CK编辑器时，获取编辑器结果动态置入输入域
-	        //var  text=CKEDITOR.instances['descriptionText'].getData();
-	        //$("#description").val(text);
-
         	//步骤1：利用FormData获取表单数据
         	var formData = new  FormData(document.getElementById("prodForm"));
-        	console.log(formData);
         	//步骤2：利用Ajax发起新产品保存功能
         	if($("#id").val().length>0){
         		//更新  
                 $.ajax({
-                       url:"${pageContext.request.contextPath}/product/edit.action",
+                       url:"${pageContext.request.contextPath}/user/edit.action",
                        type:"POST",
-                       //traditional : "true",
                        dataType:"text",//预期服务器返回数据类型
-                       //data:JSON.stringify(productData),
-                       //contentType:  "application/json;charset=UTF-8",
                        async: false,  
                        cache: false,        
-                       contentType:false,
-                       data:formData,
-                       processData:false,
-                       success:function(data){
+                       contentType: false,
+                       data: formData,
+                       processData: false,
+                       success: function(data){
 	                       alert(data);
 	                       alert("更新成功！");   
                        }
@@ -415,18 +404,23 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         	}else{
         		//新增
 	            $.ajax({
-	            	url:"${pageContext.request.contextPath}/product/insert.action",
+	            	url:"${pageContext.request.contextPath}/user/insert.action",
 	                type:"POST",
-	                // traditional : "true",
-	                dataType:"text",//预期服务器返回数据类型
-	                //  data:JSON.stringify(productData),
-	                //contentType:  "application/json;charset=UTF-8",
-	                async: false,  
-	                cache: false,        
-	                contentType:false,
-	                data:formData,
-	                processData:false,
-	                success:function(data){
+	                //dataType:"text",//预期服务器返回数据类型
+                    //async: false,  
+                    //cache: false,        
+                    //contentType: false,
+                    //data: formData,
+                    //processData: false,
+	                data: {
+	                	"username": username,
+	    	            "password": password,
+	    	            "gender": gender,
+	    	            "email": email,
+	    	            "telephone": telephone,
+	    	            "introduce": introduce
+	                },
+	                success: function(data){
 		                alert(data);
 		                alert("保存成功！");   
 	                }

@@ -14,11 +14,11 @@ public interface UserMapper {
 	// 获取符合条件的用户列表
 	public List<User> getUserList(User user);
 
-	public Integer getUserListCount(User user);
-
 	// 编辑某用户
 	public int editUser(User user);
 
 	// 删除用户
 	public int deleteUser(int id);
+
+	public void deleteUsers(String[] idArr);
 }

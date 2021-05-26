@@ -8,7 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageInfo;
 
 import cn.lmu.bookstore.pojo.User;
 import cn.lmu.bookstore.service.UserService;
@@ -34,60 +37,67 @@ public class UserController {
 	 * MVC方法：设置Model数据并请求JSP页面解析展示数据
 	 */
 	@RequestMapping(value = "/list.action", method = { RequestMethod.POST, RequestMethod.GET })
-	public String list(User user, Model model) {
-		List<User> users = this.userService.getUserListWhere(user);
-		model.addAttribute("users", users);
+	public String list(@RequestParam(defaultValue = "1") Integer pageNum,
+			@RequestParam(defaultValue = "10") Integer pageSize, User user, Model model) {
+		// List<User> users = this.userService.getUserListWhere(user);
+		// model.addAttribute("users", users);
+		PageInfo<User> pageInfo = this.userService.getUserListWhereByPage(user, pageNum, pageSize);
+		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("user", user);
 		return "admin/users2";
 	}
 
 	/**
-	 * 创建
+	 * 请求新增时返回新增页面
 	 */
-	@RequestMapping(value = "/create.action")
+	@RequestMapping(value = "/insert.action", method = { RequestMethod.GET })
+	public String insert(Model model) {
+		return "admin/User-Edit";
+	}
+
+	/**
+	 * 新增保存请求
+	 */
+	@RequestMapping(value = "/insert.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String Create(User user) {
-		// 执行Service层中的创建方法，返回的是受影响的行数
-		int rows = this.userService.createUser(user);
-		if (rows > 0) {
+	public String save(Model model, User user) {
+		int rowCount = this.userService.createUser(user);
+		if (rowCount > 0) {
 			return "OK";
 		} else {
-			return "FAIL";
+			return "ERROR";
 		}
 	}
 
-	@RequestMapping("/getUserById.action")
-	@ResponseBody
-	public User getProductById(int id) {
+	// 请求产品编辑页面
+	@RequestMapping(value = "/edit.action", method = { RequestMethod.GET })
+	public String edit(Model model, int id) {
 		User user = this.userService.getUserById(id);
-		return user;
+		model.addAttribute("user", user);// 将要编辑的产品原有数据传输到前端
+		return "admin/User-Edit";
 	}
 
 	/**
 	 * 更新产品
 	 */
-	@RequestMapping("/update.action")
+	@RequestMapping(value = "/edit.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String update(User user) {
-		int rows = this.userService.editUser(user);
-		if (rows > 0) {
+	public String update(Model model, User user) {
+		int rowCount = this.userService.editUser(user);
+		if (rowCount > 0) {
 			return "OK";
 		} else {
-			return "FAIL";
+			return "ERROR";
 		}
 	}
 
 	/**
 	 * 删除产品
 	 */
-	@RequestMapping("/delete.action")
+	@RequestMapping(value = "/delete.action", method = { RequestMethod.POST })
 	@ResponseBody
-	public String delete(int id) {
-		int rows = this.userService.deleteUserById(id);
-		if (rows > 0) {
-			return "OK";
-		} else {
-			return "FAIL";
-		}
+	public String delete(@RequestParam(value = "idArr") String[] idArr) {
+		this.userService.deleteUserByIds(idArr);
+		return "success";
 	}
 }

@@ -162,6 +162,25 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
                 <!-- .box-body -->
                 <div class="box box-primary">
+                	<!-- search form -->
+					<div class="box-header with-border">
+						<h3 class="box-title">查询</h3>
+					</div>
+					<form id="searchForm" class="form-inline" method="get" action="list.action">
+						<!-- 利用隐藏域记录当前的分页信息 -->
+						<input type="hidden"  id="pageNum" name="pageNum"  value="${pageInfo.pageNum}">
+	                    <input  type="hidden" name="pageSize"  value="${pageInfo.pageSize}">
+						<div class="form-group">
+							<label for="title">姓名</label> <input type="text"
+								class="form-control" id="title" name="username" value="${user.username}" placeholder="姓名">
+						</div>
+						<div class="form-group">
+							<button type="submit" id="search-btn" class="btn  btn-flat">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+					</form>
+					<!-- /.search form -->
                     <div class="box-header with-border">
                         <h3 class="box-title">列表</h3>
                     </div>
@@ -175,20 +194,23 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="insert.action"'><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" title="删除" onclick='del();'><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启</button>
                                         <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm" placeholder="搜索">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-                            </div>
+                            <form class="form-inline" method="post"
+								action="list.action">
+	                            <div class="box-tools pull-right">
+	                                <div class="has-feedback">
+	                                    <input type="text" class="form-control input-sm" placeholder="搜索" id="name" value="${user.username }" name="username" >
+	                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+	                                </div>
+	                            </div>
+                            </form>
                             <!--工具栏/-->
 
                             <!--数据列表-->
@@ -209,9 +231,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${users}" var="row">
+									<c:forEach items="${pageInfo.list}" var="row">
 										<tr>
-											<td><input name="ids" type="checkbox"></td>
+											<td><input name="ids" type="checkbox" value="${row.id}"></td>
 											<td>${row.id}</td>
 											<td>${row.username}</td>
 											<td>${row.gender}</td>
@@ -224,7 +246,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 												<button type="button" class="btn bg-olive  btn-xs"
 													onclick='location.href="all-order-manage-edit.html"'>详情</button>
 												<button type="button" class="btn bg-olive  btn-xs"
-													onclick='location.href="all-order-manage-edit.html"'>编辑</button>
+													onclick='location.href="edit.action?id=${row.id}"'>编辑</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -236,20 +258,25 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                             <div class="pull-left">
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="all-order-manage-edit.html"'><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" onclick='confirm("你确认要删除吗？")'><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" title="新建" onclick='location.href="insert.action"'><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" title="删除" onclick='del();'><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="开启" onclick='confirm("你确认要开启吗？")'><i class="fa fa-check"></i> 开启</button>
                                         <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-tools pull-right">
-                                <div class="has-feedback">
-                                    <input type="text" class="form-control input-sm" placeholder="搜索">
-                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </div>
-                            </div>
+                            <form class="form-inline" method="post"
+								action="list.action">
+								<div class="box-tools pull-right">
+									<div class="has-feedback">
+										<input type="text" class="form-control input-sm"
+											placeholder="搜索" id="name" value="${user.username}"
+								name="username" > <span
+											class="glyphicon glyphicon-search form-control-feedback"></span>
+									</div>
+								</div>
+							</form>
                             <!--工具栏/-->
 
                         </div>
@@ -263,33 +290,28 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                     <div class="box-footer">
                         <div class="pull-left">
                             <div class="form-group form-inline">
-                                总共2 页，共14 条数据。 每页
-                                <select class="form-control">
-                            <option>10</option>
-                            <option>15</option>
-                            <option>20</option>
-                            <option>50</option>
-                            <option>80</option>
-                        </select> 条
-                            </div>
+								总共${pageInfo.pages}
+								页，当前第${pageInfo.pageNum}页，共${pageInfo.total}条数据。 每页 <select
+									class="form-control">
+									<option ${pageInfo.pageSize=="10"?"selected='selected'":"pageInfo.pageSize=10"}>10</option>
+									<option ${pageInfo.pageSize=="15"?"selected='selected'":"pageInfo.pageSize=15"}>15</option>
+									<option ${pageInfo.pageSize=="20"?"selected='selected'":"pageInfo.pageSize=20"}>20</option>
+									<option ${pageInfo.pageSize=="50"?"selected='selected'":"pageInfo.pageSize=50"}>50</option>
+									<option ${pageInfo.pageSize=="80"?"selected='selected'":"pageInfo.pageSize=80"}>80</option>
+								</select> 条
+							</div>
                         </div>
-
                         <div class="box-tools pull-right">
                             <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">首页</a>
-                                </li>
-                                <li><a href="#">上一页</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li><a href="#">下一页</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">尾页</a>
-                                </li>
-                            </ul>
+								<li><a href="javascript:void(0)" aria-label="Previous"
+									onclick="form(${pageInfo.firstPage})">首页</a></li>
+								<li><a href="javascript:void(0)"
+									onclick="form(${pageInfo.hasPreviousPage?pageInfo.prePage:pageInfo.pageNum})">上一页</a></li>
+								<li><a href="javascript:void(0)"
+									onclick="form(${pageInfo.hasNextPage?pageInfo.nextPage:pageInfo.pageNum})">下一页</a></li>
+								<li><a href="javascript:void(0)" aria-label="Next"
+									onclick="form(${pageInfo.lastPage})">尾页</a></li>
+							</ul>
                         </div>
 
                     </div>
@@ -381,7 +403,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         $(document).ready(function() {
 
             // 激活导航位置
-            setSidebarActive("order-user");
+            setSidebarActive("user-list");
 
             // 列表按钮 
             $("#dataList td input[type='checkbox']").iCheck({
@@ -399,6 +421,42 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
                 $(this).data("clicks", !clicks);
             });
         });
+        
+        // 分页脚本
+        function form(pageNum) {
+            $("#pageNum").val(pageNum);
+            $("#searchForm").submit();
+        }
+        
+        //删除
+        function del(){                  
+            var idArr = new Array();
+            $.each($("input[name='ids']:checked"),function(){
+                idArr.push($(this).val());
+			});
+            if(idArr.length==0){
+            	alert('您还未选择要删除的数据！');
+            	return;
+            }
+            if(confirm('您确定要删除所选记录？')){                   
+			    $.ajax({
+					url:"${pageContext.request.contextPath}/user/delete.action",
+					type:"POST",
+					traditional : "true",
+					dataType:"text",//预期服务器返回数据类型
+					data:{
+			        	"idArr":idArr
+			        },
+			        success:function(){
+			        	alert("删除成功！");   
+			        	$("input[name='ids']:checked").each(function() { // 遍历选中的checkbox
+			        		$(this).parents("tr").remove();  // 获取checkbox所在行并删除                          
+			       		});
+			                                         
+			        }
+				});  
+			}
+		}
     </script>
 </body>
 

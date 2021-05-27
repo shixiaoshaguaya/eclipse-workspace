@@ -78,7 +78,7 @@ public class UserController {
 				fromUrl = fromUrl.substring(fromUrl.indexOf("/", 1));
 				return "redirect:" + fromUrl;
 			} else {
-				return "redirect:product/list.action";
+				return "redirect:/product/list.action";
 			}
 		}
 		model.addAttribute("msg", "用户名或密码错误，请重新登录！");

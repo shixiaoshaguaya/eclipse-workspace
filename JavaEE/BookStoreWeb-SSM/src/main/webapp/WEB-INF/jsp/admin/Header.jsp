@@ -235,7 +235,7 @@
 									<a href="#" class="btn btn-default btn-flat">修改密码</a>
 								</div>
 								<div class="pull-right">
-									<a href="<%=request.getContextPath()%>/user/login.action"" class="btn btn-default btn-flat">注销</a>
+									<a href="<%=request.getContextPath()%>/user/logout.action"" class="btn btn-default btn-flat">注销</a>
 								</div>
 							</li>
 						</ul></li>

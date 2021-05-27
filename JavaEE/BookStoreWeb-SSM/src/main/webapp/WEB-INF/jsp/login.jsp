@@ -82,7 +82,7 @@
 
             <a href="#">忘记密码</a><br>
             <a href="all-admin-register.html" class="text-center">新用户注册</a>
-
+			<h6>${msg}</h6>
         </div>
         <!-- /.login-box-body -->
     </div>

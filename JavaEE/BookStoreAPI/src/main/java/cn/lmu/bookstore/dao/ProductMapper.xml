@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lmu.bookstore.dao.ProductMapper">
+	<!--SQL片段 -->
+	<sql id="getProductListWhere">
+		<where>
+			<if test="id != null">
+				p.id like "%"#{id}"%"
+			</if>
+			<if test="name != null and name !=''">
+				and p.name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="category != null">
+				<if test="category.name != null and  category.name != ''">
+					and c.name= #{category.name}
+				</if>
+			</if>
+		</where>
+	</sql>
+	<!-- 新增产品 -->
+	<insert id="createProduct" parameterType="Product">
+		insert into product(
+		id,
+		name,
+		price,
+		categoryid,
+		pnum,
+		imgurl,
+		description
+		)
+		values(#{id},
+		#{name},
+		#{price},
+		#{category.id},
+		#{pnum},
+		#{imgurl},
+		#{description}
+		)
+	</insert>
+	<!-- 更新 -->
+	<update id="editProduct" parameterType="product">
+		update product
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="price!=null">
+				price=#{price},
+			</if>
+			<if test="category != null">
+				<if test="category.id != null">
+					categoryid= #{category.id},
+				</if>
+			</if>
+			<if test="pnum !=null">
+				pnum=#{pnum},
+			</if>
+			<if test="description !=null">
+				description=#{description},
+			</if>
+			<if test="imgurl !=null">
+				imgurl=#{imgurl},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<select id="getProductById" parameterType="String"
+		resultMap="ProductWithCategoryResult">
+		select p.id,
+		p.name,
+		price,
+		categoryid,
+		pnum,
+		imgurl,
+		description,c.id as category_id,c.name as category_name
+		from product p inner join category c
+		on p.categoryid=c.id
+		where p.id=#{id}
+	</select>
+	<select id="getProductList" parameterType="Product"
+		resultMap="ProductWithCategoryResult">
+		select p.id,
+		p.name,
+		price,
+		categoryid,
+		pnum,
+		imgurl,
+		description,c.id as category_id,c.name as category_name
+		from product p inner join category c
+		on p.categoryid=c.id
+		<include refid="getProductListWhere" />
+		<!-- 执行分页查询 -->
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="getProductListByName" parameterType="string"
+		resultMap="ProductWithCategoryResult">
+		select p.id,p.name,price,categoryid,pnum,imgurl,
+		description,c.id as category_id,c.name as category_name
+		from product p inner join category c
+		on p.categoryid=c.id
+		where p.name like CONCAT('%',#{keyword},'%')
+	</select>
+	<!-- 查询总数 -->
+	<select id="getProductListCount" parameterType="Product"
+		resultType="Integer">
+		select count(*)
+		from product p inner join category c
+		on p.categoryid=c.id
+		<include refid="getProductListWhere" />
+	</select>
+	<!-- 删除产品 -->
+	<delete id="deleteProduct" parameterType="String">
+		delete from product where id=#{id}
+	</delete>
+	<!-- 删除一组产品 -->
+     <delete id="deleteProducts">
+        delete from product where id in
+        <foreach collection="array"  item="item_id" separator="," open="("  close=")">
+                     #{item_id}
+      </foreach>
+    </delete>
+	<resultMap type="Product" id="ProductWithCategoryResult">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="pnum" column="pnum" />
+		<result property="imgurl" column="imgurl" />
+		<result property="description" column="description" />
+		<association property="category" javaType="Category">
+			<id property="id" column="category_id" />
+			<result property="name" column="category_name" />
+		</association>
+	</resultMap>
+</mapper>

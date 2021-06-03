@@ -2,6 +2,7 @@ package cn.lmu.bookstore.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/login.action", method = RequestMethod.POST)
-	public String login(User user, Model model, HttpSession session) {
+	public String login(User user, Model model, HttpSession session, HttpServletRequest request) {
 		// 从数据库中获取对用户名和密码后进行判断
 		User loginedUser = this.userService.checkLogin(user);
 		if (loginedUser != null) {
@@ -78,7 +79,14 @@ public class UserController {
 				fromUrl = fromUrl.substring(fromUrl.indexOf("/", 1));
 				return "redirect:" + fromUrl;
 			} else {
-				return "redirect:/product/list.action";
+				String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+						+ request.getContextPath() + "/";
+				if (loginedUser.getRole() == "超级用户") {
+					path = path + "product/list.action";
+				} else {
+					path = path + "home/index.action";
+				}
+				return "redirect:" + path;
 			}
 		}
 		model.addAttribute("msg", "用户名或密码错误，请重新登录！");

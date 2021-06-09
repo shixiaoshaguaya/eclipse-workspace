@@ -97,7 +97,7 @@
                                      <input  type="text" name="french-hens"  id="french-hens" value="1">
                                  </div>
                               </form>
-                              <a href="#"  class="addtocart2">加入购物车</a>
+                              <a onclick="buy('${product.id}',${USER_SESSION.username!=null?true:false})" class="addtocart2">加入购物车</a>
                               <a href="#"  class="hart"><span class="icon  icon-Heart"></span></a>
                               <div  class="share">
                                  <p>Share:</p>
@@ -172,6 +172,36 @@
            zoomWindowFadeIn: 500,
            zoomWindowFadeOut: 750
        });
+    </script>
+    <script type="text/javascript">
+       function buy(productId, isLogined) {
+           if(isLogined!=true){
+               if(confirm("您还没登录，是否现在登录？")){
+                  window.location.href="../user/login.action";
+               }
+               return false;
+           }
+           var param = {
+               'id' : productId,
+               'count': $("#french-hens").val()
+           };
+           jQuery.ajax({
+               url :  '${pageContext.request.contextPath}/cart/buy.action',
+               data : param,
+               dataType : "JSON",
+               type : "POST",
+               success : function(data) {
+                  if (data == true) {
+                      alert("加入购物车成功！");
+                  } else {
+                      alert("加入购物车失败！");
+                  }
+               },
+               error : function(XMLResponse)  {
+                  alert(XMLResponse.responseText)
+               }
+           });
+       }
     </script>
 </body>
 </html>

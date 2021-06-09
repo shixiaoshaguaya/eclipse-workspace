@@ -215,7 +215,7 @@
                                  <p  class="wk-price">￥${row.price}</p>
                                  <p>库存：${row.pnum}</p>
                                  <a  href="details.action?pid=${row.id}"  class="add-btn">查看详情</a>
-                                 <a href="#"  class="add-btn">加入购物车</a>
+                                 <a onclick="buy('${row.id}',${USER_SESSION.username!=null?true:false})" class="add-btn">加入购物车</a>
                                  <a href="#"  class="add-btn2"><span class="icon  icon-Heart"></span></a>                            
                               </div>
                           </div>
@@ -250,5 +250,36 @@
     </section>
     
     <%@ include file="Footer.jsp"%>
+    
+    <script type="text/javascript">
+       function buy(productId,isLogined) {
+           if(isLogined!=true){
+               if(confirm("您还没登录，是否现在登录？")){
+                  window.location.href="../user/login.action";
+               }
+               return false;
+           }
+           var param = {
+               'id' : productId,
+               'count': 1
+           };
+           jQuery.ajax({
+               url :  '${pageContext.request.contextPath}/cart/buy.action',
+               data : param,
+               dataType : "JSON",
+               type : "POST",
+               success : function(data) {
+                  if (data == true) {
+                      alert("加入购物车成功！");
+                  } else {
+                      alert("加入购物车失败！");
+                  }
+               },
+               error : function(XMLResponse)  {
+                  alert(XMLResponse.responseText)
+               }
+           });
+       }
+    </script>
 </body>
 </html>

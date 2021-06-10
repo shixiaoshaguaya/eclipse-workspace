@@ -123,6 +123,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                      #{item_id}
       </foreach>
     </delete>
+    <!-- 更新 -->
+    <update id="updatePrdocutNum"  parameterType="OrderItem">
+          update product
+          set pnum=pnum-#{buyNum}
+          where id=#{product.id}
+    </update>
 	<resultMap type="Product" id="ProductWithCategoryResult">
 		<id property="id" column="id" />
 		<result property="name" column="name" />

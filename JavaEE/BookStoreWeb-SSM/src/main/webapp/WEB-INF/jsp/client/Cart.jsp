@@ -62,7 +62,7 @@
 				</div>
 				<div class="col-sm-6 col-md-6  text-right">
 					<a href="../home/index.action" class="button  red">继续购物</a> <a
-						href="#" class="button red">结算下单</a>
+						href="../order/checkOut.action" class="button red">结算下单</a>
 				</div>
 			</div>
 		</div>

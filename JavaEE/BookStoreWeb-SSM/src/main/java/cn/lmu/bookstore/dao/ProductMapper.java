@@ -2,6 +2,7 @@ package cn.lmu.bookstore.dao;
 
 import java.util.List;
 
+import cn.lmu.bookstore.pojo.OrderItem;
 import cn.lmu.bookstore.pojo.Product;
 
 public interface ProductMapper {
@@ -25,4 +26,7 @@ public interface ProductMapper {
 	public List<Product> getProductListByName(String title);
 
 	public void deleteProducts(String[] idArr);
+
+	// 更新库存
+	public int updatePrdocutNum(OrderItem item);
 }

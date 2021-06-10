@@ -77,8 +77,10 @@
 <!-- sticky-socia -->
 <aside id="sticky-social">
 	<ul>
-		<li><a href="../cart/list.action" class="fa  fa-facebook"><span><i
-					class="fa fa-facebook" aria-hidden="true"></i> Cart</span></a></li>
+		<li><a href="../cart/list.action" class="fa fa-shopping-cart"><span><i
+					class="fa fa-shopping-cart" aria-hidden="true"></i> 购物车</span></a></li>
+		<li><a href="#" class="fa fa-facebook" target="_blank"><span><i
+					class="fa fa-facebook" aria-hidden="true"></i> FaceBook</span></a></li>
 		<li><a href="#" class="fa  fa-twitter" target="_blank"><span><i
 					class="fa fa-twitter" aria-hidden="true"></i> Twitter</span></a></li>
 		<li><a href="#" class="fa fa-rss" target="_blank"><span><i

@@ -2077,6 +2077,11 @@ ul {
 	margin-top: 10px;
 	padding: 0 10px;
 }
+#sticky-social a[class*="shopping-cart"],
+#sticky-social a[class*="shopping-cart"]:hover,
+#sticky-social a[class*="shopping-cart"] span {
+	background: #3b5998;
+}
 #sticky-social a[class*="facebook"],
 #sticky-social a[class*="facebook"]:hover,
 #sticky-social a[class*="facebook"] span {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="jsonapi.mapper.DataMapper">
+    <select id="getGmv"  parameterType="GmvCondition"
+        resultType="Gmv">
+        select  dt,gmv_count,gmv_amount,gmv_payment from  ads_gmv_sum_day
+        <where>
+           <if test="startDate != null and  startDate != ''">
+    <![CDATA[AND (DATE_FORMAT(dt, '%Y-%m-%d')  >= DATE_FORMAT( #{startDate}, '%Y-%m-%d'))]]>
+           </if>
+           <if test="endDate != null and  endDate != ''">
+    <![CDATA[AND (DATE_FORMAT(dt, '%Y-%m-%d')  <= DATE_FORMAT( #{endDate}, '%Y-%m-%d'))]]>
+           </if>
+        </where>
+    </select>
+</mapper>

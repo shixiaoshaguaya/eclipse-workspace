@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 设置告知log4j日志将MyBatis执行时的SQL语句打印在控制台 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+	</settings>
+	<!-- 定义了在MyBatis的业务逻辑配置文件类路径 -->
+	<typeAliases>
+		<package name="jsonapi.pojo" />
+	</typeAliases>
+</configuration>

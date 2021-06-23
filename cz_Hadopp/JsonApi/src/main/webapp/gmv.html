@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+<meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+	<table>
+		<tr>
+			<td name="day">开始日期: <input type="date" name="startDate"
+				id="startDate" /></td>
+			<td name="day">结束日期：<input type="date" name="endDate"
+				id="endDate" /></td>
+			<td><input type="button" value="查 询" onclick="query()" /></td>
+		</tr>
+	</table>
+	<div id="container" style="height: 100%"></div>
+	<script type="text/javascript"
+		src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		var dom = document.getElementById("container");
+		var myChart = echarts.init(dom);
+		var app = {};
+		option = null;
+		var posList = [ 'left', 'right', 'top', 'bottom', 'inside',
+				'insideTop', 'insideLeft', 'insideRight', 'insideBottom',
+				'insideTopLeft', 'insideTopRight', 'insideBottomLeft',
+				'insideBottomRight' ];
+		app.configParameters = {
+			rotate : {
+				min : -90,
+				max : 90
+			},
+			align : {
+				options : {
+					left : 'left',
+					center : 'center',
+					right : 'right'
+				}
+			},
+			verticalAlign : {
+				options : {
+					top : 'top',
+					middle : 'middle',
+					bottom : 'bottom'
+				}
+			},
+			position : {
+				options : echarts.util.reduce(posList, function(map, pos) {
+					map[pos] = pos;
+					return map;
+				}, {})
+			},
+			distance : {
+				min : 0,
+				max : 100
+			}
+		};
+		app.config = {
+			rotate : 90,
+			align : 'left',
+			verticalAlign : 'middle',
+			position : 'insideBottom',
+			distance : 15,
+			onChange : function() {
+				var labelOption = {
+					normal : {
+						rotate : app.config.rotate,
+						align : app.config.align,
+						verticalAlign : app.config.verticalAlign,
+						position : app.config.position,
+						distance : app.config.distance
+					}
+				};
+				myChart.setOption({
+					series : [ {
+						label : labelOption
+					}, {
+						label : labelOption
+					}, {
+						label : labelOption
+					}, {
+						label : labelOption
+					} ]
+				});
+			}
+		};
+		var labelOption = {
+			show : true,
+			position : app.config.position,
+			distance : app.config.distance,
+			align : app.config.align,
+			verticalAlign : app.config.verticalAlign,
+			rotate : app.config.rotate,
+			formatter : '{c}  {name|{a}}',
+			fontSize : 16,
+			rich : {
+				name : {
+					textBorderColor : '#fff'
+				}
+			}
+		};
+		function formatDate(date) {
+			var date = new Date(date);
+			var YY = date.getFullYear() + '-';
+			var MM = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1)
+					: date.getMonth() + 1)
+					+ '-';
+			var DD = (date.getDate() < 10 ? '0' + (date.getDate()) : date
+					.getDate());
+			var hh = (date.getHours() < 10 ? '0' + date.getHours() : date
+					.getHours())
+					+ ':';
+			var mm = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date
+					.getMinutes())
+					+ ':';
+			var ss = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date
+					.getSeconds());
+			return YY + MM + DD;
+		}
+
+		function query() {
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			console.log(startDate);
+			var strUrl = 'http://localhost:8080/JsonApi/gmv.action';
+			if (startDate && endDate) {
+				strUrl = strUrl + '?startDate=' + startDate + '&endDate='
+						+ endDate;
+			}
+			$.ajax({
+				url : strUrl,
+				type : 'get',
+				dataType : 'json',
+				success : function(response) {
+					var dts = [];
+					var gmv_counts = [];
+					var gmv_amounts = [];
+					var gmv_payments = [];
+					$.each(response.data, function(index, obj) {
+						dts.push(formatDate(obj.dt));
+						gmv_counts.push(obj.gmv_count);
+						gmv_amounts.push(obj.gmv_amount);
+						gmv_payments.push(obj.gmv_payment);
+					})
+					myChart.hideLoading(); // 隐藏加载动画
+					myChart.setOption({
+						color : [ '#003366', '#006699', '#4cabce', '#e5323e' ],
+						tooltip : {
+							trigger : 'axis',
+							axisPointer : {
+								type : 'shadow'
+							}
+						},
+						legend : {
+							data : [ 'gmv_count', 'gmv_amount', 'gmv_payment' ]
+						},
+						toolbox : {
+							show : true,
+							orient : 'vertical',
+							left : 'right',
+							top : 'center',
+							feature : {
+								mark : {
+									show : true
+								},
+								dataView : {
+									show : true,
+									readOnly : false
+								},
+								magicType : {
+									show : true,
+									type : [ 'line', 'bar', 'stack', 'tiled' ]
+								},
+								restore : {
+									show : true
+								},
+								saveAsImage : {
+									show : true
+								}
+							}
+						},
+						xAxis : [ {
+							type : 'category',
+							axisTick : {
+								show : false
+							},
+							data : dts
+						} ],
+						yAxis : [ {
+							type : 'value'
+						} ],
+						series : [ {
+							name : 'gmv_count',
+							type : 'bar',
+							barGap : 0,
+							label : labelOption,
+							data : gmv_counts
+						}, {
+							name : 'gmv_amount',
+							type : 'bar',
+							label : labelOption,
+							data : gmv_amounts
+						}, {
+							name : 'gmv_payment',
+							type : 'bar',
+							label : labelOption,
+							data : gmv_payments
+						} ]
+					});
+				}
+			});
+		}
+		$(query);
+	</script>
+</body>
+</html>

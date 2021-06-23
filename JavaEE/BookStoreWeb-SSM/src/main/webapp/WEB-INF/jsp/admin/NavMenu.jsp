@@ -43,7 +43,7 @@
 						class="fa fa-dashboard"></i> <span>首页</span></a></li>
 
 				<!-- 菜单 -->
-				<li class="treeview"><a href="#"> <i class="fa fa-cube"></i>
+				<li class="treeview"><a href="${pageContext.request.contextPath}/product/list.action"> <i class="fa fa-cube"></i>
 						<span>产品管理</span> <span class="pull-right-container"> <i
 							class="fa fa-angle-left pull-right"></i>
 					</span>
@@ -60,9 +60,20 @@
 						</a></li>
 					</ul></li>
 
+				<li class="treeview"><a href="${pageContext.request.contextPath}/order/list.action"> <i class="fa fa-cube"></i>
+						<span>订单管理</span> <span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+					<ul class="treeview-menu">
 
+						<li id="order-list"><a
+							href="${pageContext.request.contextPath}/order/list.action">
+								<i class="fa fa-circle-o"></i> 全部订单
+						</a></li>
+					</ul></li>
 
-				<li class="treeview"><a href="#"> <i class="fa fa-cube"></i>
+				<li class="treeview"><a href="${pageContext.request.contextPath}/user/list.action"> <i class="fa fa-cube"></i>
 						<span>用户管理</span> <span class="pull-right-container"> <i
 							class="fa fa-angle-left pull-right"></i>
 					</span>
@@ -79,6 +90,12 @@
 								class="fa fa-circle-o"></i> 用户新增
 						</a></li>
 					</ul></li>
+					
+				<li class="treeview"><a href="${pageContext.request.contextPath}/analyse/anlsOrderByCatg.action"> <i class="fa fa-cube"></i>
+						<span>ChartJS</span> <span class="pull-right-container"> <i
+							class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a></li>
 			</ul>
 		</section>
 		<!-- /.sidebar -->

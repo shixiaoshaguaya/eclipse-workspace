@@ -12,7 +12,7 @@ public class Order {
 	private String receiverPhone; // 收货人电话
 	private Integer payState; // 支付状态
 	private Integer orderState; // 订单状态
-	private Date ordertime; // 下单时间
+	private Date orderTime; // 下单时间
 	private User user; // 订单所属用户
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
@@ -72,12 +72,12 @@ public class Order {
 		this.orderState = orderState;
 	}
 
-	public Date getOrdertime() {
-		return ordertime;
+	public Date getOrderTime() {
+		return orderTime;
 	}
 
-	public void setOrdertime(Date orderTime) {
-		this.ordertime = orderTime;
+	public void setOrderTime(Date orderTime) {
+		this.orderTime = orderTime;
 	}
 
 	public User getUser() {
@@ -100,6 +100,6 @@ public class Order {
 	public String toString() {
 		return "Order [id=" + id + ", money=" + money + ", receiverAddress=" + receiverAddress + ", receiverName="
 				+ receiverName + ", receiverPhone=" + receiverPhone + ", payState=" + payState + ", orderState="
-				+ orderState + ", orderTime=" + ordertime + ", user=" + user + ", orderItems=" + orderItems + "]";
+				+ orderState + ", orderTime=" + orderTime + ", user=" + user + ", orderItems=" + orderItems + "]";
 	}
 }

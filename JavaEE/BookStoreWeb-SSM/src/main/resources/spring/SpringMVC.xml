@@ -28,6 +28,7 @@
        <!--登录拦截器 -->
        <mvc:interceptor>
            <mvc:mapping path="/**" />
+           <mvc:exclude-mapping path="/analyse/**"/>
            <bean  class="cn.lmu.bookstore.interceptor.LoginInterceptor" />
        </mvc:interceptor>
     </mvc:interceptors>

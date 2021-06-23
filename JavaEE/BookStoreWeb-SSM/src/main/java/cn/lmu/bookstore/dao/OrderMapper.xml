@@ -11,7 +11,7 @@
        receiverPhone,
        payState,
        orderState,
-       ordertime,
+       orderTime,
        user_id
        )
        values(#{id},
@@ -21,8 +21,170 @@
        #{receiverPhone},
        #{payState},
        #{orderState},
-       #{ordertime},
+       #{orderTime},
        #{user.id}
        )
-    </insert>   
+    </insert>
+    <!--SQL片段 -->
+    <sql id="getOrderListWhere">
+       <where>
+           <if test="id != null">
+               o.id like "%"#{id}"%"
+           </if>
+           <if test="user!=null">
+               <if test="user.username !=  null and user.username!=''">
+                  and u.username like  "%"#{user.username}"%"
+               </if>
+               <if test="user.telephone !=  null and user.telephone!=''">
+                  and u.telephone like  "%"#{user.telephone}"%"
+               </if>
+           </if>
+           <if test="payState != null">
+               and o.payState = #{payState}
+           </if>
+           <if test="orderState != null">
+               and o.orderState =  #{orderState}
+           </if>
+           <if test="startDate != null and   startDate != ''">
+    <![CDATA[AND (DATE_FORMAT(o.ordertime,  '%Y-%m-%d')  >= DATE_FORMAT( #{startDate},  '%Y-%m-%d'))]]>
+           </if>
+           <if test="endDate != null and   endDate != ''">
+    <![CDATA[AND (DATE_FORMAT(o.ordertime,  '%Y-%m-%d')  <= DATE_FORMAT( #{endDate},  '%Y-%m-%d'))]]>
+           </if>
+       </where>
+    </sql>
+    <select id="getOrderById"  parameterType="String"  resultMap="OrderInfoResult">
+       select o.id,
+       o.money,
+       receiverAddress,
+       receiverPhone,
+       receiverName,
+       payState,
+       orderState,
+       orderTime,
+       oi.product_id,p.name as  product_name,
+       oi.buyNum,
+       u.id user_id,
+       u.username,
+       u.telephone
+       from `order` o inner join
+       orderItem oi
+       on o.id=oi.order_id
+       inner join product p
+       on
+       oi.product_id=p.id
+       inner join
+       user u
+       on o.user_id=u.id
+       where o.id=#{id}
+    </select>
+    <select id="getOrderList"  parameterType="OrderCondition"
+       resultMap="OrderInfoResult">
+       select o.id,
+       o.money,
+       receiverAddress,
+       receiverPhone,
+       receiverName,
+       payState,
+       orderState,
+       orderTime,
+       oi.id as orderItemId,
+       oi.product_id,p.name as  product_name,
+       oi.buyNum,
+       oi.buyPrice,
+       u.id
+       user_id,
+       u.username,
+       u.telephone
+       from `order` o inner join orderItem
+       oi
+       on
+       o.id=oi.order_id
+       inner join product p
+       on oi.product_id=p.id
+       inner
+       join
+       user u
+       on o.user_id=u.id
+       <include refid="getOrderListWhere"  />
+    </select>
+    <!-- 更新 -->
+    <update id="editOrder"  parameterType="Order">
+       update `order`
+       <set>
+           <if test="payState!=null">
+               payState=#{payState},
+           </if>
+           <if test="orderState!=null">
+               orderState=#{orderState},
+           </if>
+           <if test="receiverName !=null">
+               receiverName=#{receiverName},
+           </if>
+           <if test="receiverPhone !=null">
+               receiverPhone=#{receiverPhone},
+           </if>
+           <if test="receiverAddress  !=null">
+               receiverAddress=#{receiverAddress},
+           </if>
+       </set>
+       where id=#{id}
+    </update>
+    <!-- 删除订单 -->
+    <delete id="deleteOrder"  parameterType="String">
+       delete from `order` where
+       id=#{id}
+    </delete>
+    <!-- 删除一组订单 -->
+    <delete id="deleteOrders">
+       delete from order where id in
+       <foreach collection="array"  item="item_id" separator="," open="("
+           close=")">
+           #{item_id}
+       </foreach>
+    </delete>
+    <!-- 此处定义了一个查询结果映射类型，用于完成Product与Category的1对1关系映射 -->
+    <resultMap type="Order"  id="OrderInfoResult">
+       <id property="id" column="id" />
+       <result property="money"  column="money" />
+       <result property="receiverAddress"  column="receiverAddress" />
+       <result property="receiverPhone"  column="receiverPhone" />
+       <result property="receiverName"  column="receiverName" />
+       <result property="payState"  column="payState" />
+       <result property="orderState"  column="orderState" />
+       <result property="orderTime"  column="orderTime" />
+       <association property="user"  javaType="User">
+           <id property="id"  column="user_id" />
+           <result property="username"  column="username" />
+           <result property="telephone"  column="telephone" />
+       </association>
+       <collection property="orderItems"  column="" ofType="OrderItem">
+           <id property="id"  column="orderItemId" />
+           <result property="buyNum"  column="buyNum" />
+           <result property="buyPrice"  column="buyPrice" />
+           <association property="product"  javaType="Product">
+               <id  property="id" column="product_id" />
+               <result property="name"  column="product_name" />
+           </association>
+           <association property="order"  javaType="Order">
+               <id property="id" column="id"  />
+           </association>
+       </collection>
+    </resultMap>
+	<!-- 按类别统计销售 -->
+	<select id="analyseOrderByCategory"
+		parameterType="OrderCondition" resultType="AnlsOrderByCatgInfo">
+		select c.id category_id,c.`name` category_name ,
+		sum(oi.buyNum) buyNum,
+		sum(oi.buyNum*oi.buyPrice) buyMoney
+		from `order` o
+		inner join orderItem oi
+		on o.id=oi.order_id
+		inner join product p
+		on oi.product_id=p.id
+		inner join category c
+		on p.categoryid=c.id
+		<include refid="getOrderListWhere" />
+		group by c.id,c.`name`
+	</select>
 </mapper>
